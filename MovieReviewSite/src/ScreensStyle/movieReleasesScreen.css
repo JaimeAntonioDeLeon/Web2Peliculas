@@ -1,0 +1,11 @@
+.movieReleasesScreen{
+    width:100%
+}
+.movieReleasesScreen .container{
+    width: 1200px;
+    border-radius: 25px;
+    background-color: aliceblue;
+}
+.movieReleasesScreen div{
+  
+}

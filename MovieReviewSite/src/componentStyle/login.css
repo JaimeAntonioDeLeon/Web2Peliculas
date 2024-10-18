@@ -1,0 +1,64 @@
+.login{
+    width: 1200px;
+}
+.login .mainBackground{
+    padding-bottom: 30px;
+    padding-top: 30px;
+    width: 100%;
+    height: fit-content;
+    /* background-color: red; */
+    align-self: center;
+}
+
+.login h2{
+    color:black;
+    padding: 30px;
+}
+.login p{
+    color: black;
+}
+.login form{
+    width: 100%;
+}
+.login .container{
+    background-color: aliceblue;
+    border-radius: 25px;
+    width: 100%;
+
+}
+
+.login input{
+    border-radius: 10px; /* Bordes redondeados */
+    border: 1px solid #ccc; /* Borde gris claro */
+    padding: 10px; /* Espacio interno */
+    width: 90%; /* Ancho del contenedor */
+    box-sizing: border-box; /* Incluye el borde y el padding en el ancho total */
+    background-color: #f9f9f9; /* Fondo del cuadro de texto */
+    min-height: 38px; /* Altura mínima */
+    height: 38px; /* Altura fija del cuadro de texto, ajusta según sea necesario */
+    resize: none; /* Evita que el usuario cambie el tamaño del cuadro de texto */
+    margin-bottom: 15px; /* Espacio inferior para separar los cuadros de texto */
+    color:black;
+}
+
+.login button{
+    background-color: #ff0000; /* Color de fondo rojo */
+  color: white; /* Color del texto */
+  border: none; /* Sin borde */
+  border-radius: 50px; /* Bordes redondeados para hacerlo circular */
+  padding: 10px 20px; /* Espacio interno */
+  font-size: 16px; /* Tamaño de la fuente */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  margin-top: 10px; /* Espacio superior para separar el botón del cuadro de texto (reducción de margen) */
+  transition: background-color 0.3s ease; /* Transición suave al cambiar el color */
+}
+#registerLink{
+    display: block;
+    padding-bottom: 5%;
+}
+p.errorText{
+    color: red;
+}
+.login form{
+    margin-bottom: 20px;
+}

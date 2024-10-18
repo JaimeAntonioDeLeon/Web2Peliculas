@@ -1,0 +1,11 @@
+.movieListScreen{
+    width:100%
+}
+.movieListScreen .container{
+    width: 1200px;
+    border-radius: 25px;
+    background-color: aliceblue;
+}
+.movieListScreen div{
+  
+}

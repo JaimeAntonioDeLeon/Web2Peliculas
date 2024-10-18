@@ -1,0 +1,13 @@
+.moviePost{
+    background-color: aliceblue;
+    margin-bottom: 10px;
+    text-align: left;
+}
+p{
+    color:black;
+}
+h4{
+    color:black;
+    margin: 0px;
+    display: inline;
+}

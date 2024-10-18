@@ -1,0 +1,12 @@
+.listScreen{
+    width:100%;
+    text-align: start;
+}
+.listScreen .container{
+    width: 1200px;
+    border-radius: 25px;
+    background-color: aliceblue;
+}
+.listScreen div{
+  
+}

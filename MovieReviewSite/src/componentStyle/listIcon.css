@@ -1,0 +1,33 @@
+.listIcon{
+    position: relative;
+    top: 0;
+    left: 0;
+    
+}
+.listIcon .image1{
+    position: relative;
+        top: 0;
+        left: 0;
+        border: 1px solid #000000;
+        z-index: 3;
+}
+.listIcon .image2{
+    position: absolute;
+        top: 0;
+        left: 20px;
+        border: 1px solid #000000;
+        z-index: 2;
+}
+.listIcon .image3{
+    position: absolute;
+    top: 0px;
+    left: 40px;
+    border: 1px solid #000000;
+    z-index: 1;
+}
+
+.listIcon .iconContainer{
+    border: 1px solid #000000;
+    width: auto;
+    text-align: center;
+}
