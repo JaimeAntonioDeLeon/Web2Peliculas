@@ -1,9 +1,9 @@
-import "../componentStyle/moviePost.css";
+import "../componentStyle/comment.css";
 import { Row, Col, Container } from "react-bootstrap";
 
-function MoviePost({ title }) {
+function Comment({ text }) {
   return (
-    <Row xs={10} className="moviePost mb-2 pb-3 pt-3 border border-4 mx-2">
+    <Row xs={10} className="comment ms-3 me-3 mb-3 pb-3 pt-3">
       <Col xs={{ span: 1 }}>
         <img
           style={{ width: 100, lenght: 100 }}
@@ -11,11 +11,10 @@ function MoviePost({ title }) {
           alt="user"
         />
       </Col>
-      <Col xs={8} className="ms-5 mt-4">
-        <h5>{title}</h5>
-        <h6>{"Pelicula elegida"}</h6>
+      <Col xs={8} className="ms-5">
+        {text}
       </Col>
     </Row>
   );
 }
-export default MoviePost;
+export default Comment;

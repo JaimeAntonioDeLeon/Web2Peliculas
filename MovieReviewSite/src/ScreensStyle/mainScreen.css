@@ -1,0 +1,6 @@
+.mainScreen .container {
+  align-items: start;
+  text-align: unset;
+  border-radius: 25px;
+  background-color: aliceblue;
+}
