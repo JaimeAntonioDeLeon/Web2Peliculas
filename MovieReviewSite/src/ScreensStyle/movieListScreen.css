@@ -10,5 +10,6 @@
   background-color: black;
   color: aliceblue;
 }
-.movieListScreen div {
+.movieListScreen .listTitle {
+  display: inline;
 }

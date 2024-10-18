@@ -1,13 +1,16 @@
-.profileScreen{
-text-align: start;
+.profileScreen {
+  text-align: start;
 }
-.profileScreen .container{
-    width: 1200px;
-    border-radius: 25px;
-    background-color: aliceblue;
+.profileScreen .container {
+  width: 1200px;
+  border-radius: 25px;
+  background-color: aliceblue;
 }
-.profileScreen .separator{
-    width: 80%;
-    height: 10px; 
-    background-color: black
+.profileScreen .separator {
+  width: 80%;
+  height: 10px;
+  background-color: black;
+}
+.profileScreen .profile-picture {
+  border-radius: 100px;
 }
