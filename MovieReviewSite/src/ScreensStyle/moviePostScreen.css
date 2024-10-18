@@ -1,0 +1,18 @@
+.moviePostScreen {
+  width: 100%;
+}
+.moviePostScreen .container {
+  width: 1200px;
+  border-radius: 25px;
+  background-color: aliceblue;
+}
+.moviePostScreen button {
+  background-color: black;
+  color: aliceblue;
+}
+.moviePostScreen .listTitle {
+  display: inline;
+}
+.moviePostScreen .mainPost {
+  background-color: rgb(239, 218, 218);
+}

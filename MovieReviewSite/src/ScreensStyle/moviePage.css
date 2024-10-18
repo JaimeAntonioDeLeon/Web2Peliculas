@@ -1,0 +1,22 @@
+.moviePage {
+  width: 100%;
+}
+.moviePage .container {
+  width: 1200px;
+  border-radius: 25px;
+  background-color: aliceblue;
+}
+.moviePage button {
+  background-color: black;
+  color: aliceblue;
+}
+.moviePage .trailer {
+  text-align: left;
+}
+.moviePage .separator {
+  background-color: black;
+  height: 5px;
+}
+.moviePage .posterMovie {
+  width: 100%;
+}
