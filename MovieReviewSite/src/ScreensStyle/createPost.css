@@ -1,14 +1,17 @@
-.movieListScreen {
+.createPost {
   width: 100%;
 }
-.movieListScreen .container {
+.createPost .container {
+  align-items: start;
+  text-align: unset;
   width: 1200px;
   border-radius: 25px;
   background-color: aliceblue;
 }
-.movieListScreen button {
+
+.createPost button {
   background-color: black;
   color: aliceblue;
 }
-.movieListScreen div {
+.createPost div {
 }

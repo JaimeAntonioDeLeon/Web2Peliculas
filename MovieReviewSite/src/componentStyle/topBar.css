@@ -1,3 +1,9 @@
-.topBar{
-    background-color: black;
+.topBar {
+  background-color: black;
+  color: white;
+}
+.topBar h3 {
+  color: white;
+}
+.topBar .option {
 }

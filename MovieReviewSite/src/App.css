@@ -1,5 +1,5 @@
-body{
-  background-image: linear-gradient(to top, red , black);
+body {
+  background-image: linear-gradient(to top, red, black);
 }
 #root {
   max-width: 1280px;
