@@ -7,7 +7,7 @@ import "../ScreensStyle/moviePostScreen.css";
 import axios from "axios";
 import mongoose from "mongoose";
 import Comment from "../component/comment";
-function MoviePostScreen() {
+function MoviePostScreen({handleLogout}) {
   const bodyRef = useRef();
   const [login, setLogin] = useState();
 
@@ -125,39 +125,45 @@ function MoviePostScreen() {
 
   return (
     <div className="moviePostScreen">
-      <TopBar></TopBar>
-      <Container className="container mb-3">
-        <Row xs={12}>
-          <Container className="mainPost">
-            <Col xs={4}>
+      <TopBar handleLogout={handleLogout} />
+      <Container className="container mb-3 pb-4">
+        <Row>
+          <Col xs={{offset:1, span:10}} className="mainPost mt-4 mb-4 pt-3">
+          <Row>
+            <Col xs={2}>
               <img
+              className="userImage"
                 style={{ width: 100, lenght: 100 }}
                 src="https://static.vecteezy.com/system/resources/previews/000/574/215/non_2x/vector-sign-of-user-icon.jpg"
               ></img>
             </Col>
-            <Col xs={8}>
-              <Row>
-                <h2>Post Title</h2>{" "}
+            <Col xs={10} className="text-start">
+              <Row className="mb-4">
+                <h2>Post Title</h2>
               </Row>
-              <Row>
-                <h4>Movie Subject</h4>{" "}
+              <Row className="mb-4">
+                <h4>Movie Subject</h4>
               </Row>
               <Row>
                 <p> Post description </p>
               </Row>
             </Col>
-          </Container>
+            </Row>
+          </Col>
+          </Row>
+          <Row>
           <h4>Images</h4>
-        </Row>
+          </Row>
+        
       </Container>
 
       <Container className="container pb-3">
         <form onSubmit={submitHandler}>
           <Row className="mb-4">
-            <h4>Comments</h4>
+            <h4 className="text-start ms-5 mt-4">Comments</h4>
           </Row>
           <Row className="m-3">
-            <h5>Write a comment:</h5>
+            <h5 className="text-start">Write a comment:</h5>
             <Form.Control
               placeholder="Leave a comment here"
               style={{ backgroundColor: "black" }}

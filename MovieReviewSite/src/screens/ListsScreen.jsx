@@ -5,12 +5,23 @@ import BottomBar from "../component/bottomBar";
 import { Row, Col, Container } from "react-bootstrap";
 import ListIcon from "../component/listIcon";
 import "../ScreensStyle/listsScreen.css";
-function ListScreen() {
+function ListScreen({handleLogout}) {
   return (
     <div className="listScreen">
-      <TopBar></TopBar>
+      <TopBar handleLogout={handleLogout} />
       <Container className="container">
         <Row xs={12} className="pt-4">
+        <Col xs={{offset:1, span:6}}>
+            {/* <input ref={searchRef}></input> */}
+            <input></input>
+          <button
+            onClick={() => {
+              //loadMovieSearchAPI();
+            }}
+          >
+            Buscar
+          </button>
+          </Col>
           <Col xs={12} className="mb-4">
             <h2>Recent Lists</h2>
           </Col>

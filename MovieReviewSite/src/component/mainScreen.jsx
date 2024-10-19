@@ -13,6 +13,7 @@ import {
 import MovieIcon from "./movieIcon.jsx";
 import TopBar from "./topBar.jsx";
 import "../ScreensStyle/mainScreen.css";
+import BottomBar from "./bottomBar.jsx";
 
 function MainScreen({ loginSession, setLogin, handleLogout }) {
   const navigate = useNavigate();
@@ -79,7 +80,7 @@ function MainScreen({ loginSession, setLogin, handleLogout }) {
       </div> */}
         <div>
           <h3>Movies</h3>
-          <input ref={searchRef}></input>{" "}
+          <input ref={searchRef}></input>
           <button
             onClick={() => {
               loadMovieSearchAPI();
@@ -110,6 +111,7 @@ function MainScreen({ loginSession, setLogin, handleLogout }) {
           </div>
         </div>
       </Container>
+      <BottomBar/>
     </Row>
   );
 }

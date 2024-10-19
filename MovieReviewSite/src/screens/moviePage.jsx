@@ -17,7 +17,7 @@ import {
 } from "react-router-dom";
 import ListIcon from "../component/listIcon";
 
-function MoviePage() {
+function MoviePage({handleLogout}) {
   const [searchParams, setSearchParams] = useSearchParams();
   console.log(searchParams.get("movie"));
   const movieKey = searchParams.get("movie");
@@ -110,7 +110,7 @@ function MoviePage() {
 
   return (
     <div className="moviePage">
-      <TopBar></TopBar>
+      <TopBar handleLogout={handleLogout} />
       <Container className="container  pt-4">
         <Row xs={12}>
           <Col xs={{ span: 4, offset: 1 }} className="mb-3">
@@ -159,6 +159,7 @@ function MoviePage() {
           <Col xs={{ span: 4, offset: 1 }} className="text-start mb-3">
             <h3>Lists that have this movie</h3>
           </Col>
+          <Col xs={{offset: 5, span:2}}><button className="ms-auto">Add to list</button></Col>
           <Col xs={{ span: 10, offset: 1 }} className="mb-3">
             <ListIcon />
             {/* <div>
@@ -176,8 +177,9 @@ function MoviePage() {
 
         <Row className="mb-4">
           <Col className="text-start" xs={{ span: 4, offset: 1 }}>
-            <h3>Posts about this movie</h3>
+            <h3>Posts about this movie</h3> 
           </Col>
+          <Col xs={{offset: 5, span:2}}><button className="ms-auto">Make post</button></Col>
         </Row>
         <Row>
           <Col xs={{ span: 10, offset: 1 }}>

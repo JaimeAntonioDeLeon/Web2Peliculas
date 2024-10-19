@@ -5,10 +5,10 @@ import BottomBar from "../component/bottomBar";
 import { Row, Col, Container } from "react-bootstrap";
 import "../ScreensStyle/movieListScreen.css";
 import MovieIcon from "../component/movieIcon";
-function MovieListScreen() {
+function MovieListScreen({handleLogout}) {
   return (
     <div className="movieListScreen">
-      <TopBar></TopBar>
+      <TopBar handleLogout={handleLogout} />
       <Container className="container">
         <Row xs={12}>
           <Col xs={12} className="text-start mb-5">

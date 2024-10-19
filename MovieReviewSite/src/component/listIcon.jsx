@@ -1,13 +1,15 @@
 import { Row, Col, Container } from "react-bootstrap";
 import "../componentStyle/listIcon.css";
+import { useNavigate } from "react-router-dom";
 function ListIcon(list) {
+  const navigate = useNavigate();
   return (
     <div className="listIcon  mb-2">
       <div
         className="iconContainer d-flex flex-row "
         align="center"
         onClick={() => {
-          navigate(`/moviePage?movie=${list._id}`);
+          navigate(`/movieList?list=${list._id}`);
         }}
       >
         <img

@@ -8,7 +8,7 @@ import "../ScreensStyle/createPost.css";
 import axios from "axios";
 import mongoose from "mongoose";
 
-function CreatePost(loginSession, onLogin) {
+function CreatePost({loginSession, onLogin, handleLogout}) {
   const [login, setLogin] = useState();
   const [image, setImage] = useState(null);
   const [savedImage, setSavedImage] = useState(null);
@@ -128,7 +128,7 @@ function CreatePost(loginSession, onLogin) {
 
   return (
     <div className="createPost">
-      <TopBar></TopBar>
+      <TopBar handleLogout={handleLogout} />
       <Container className="container pb-4">
         <Row xs={12}>
           <Col xs={4}>

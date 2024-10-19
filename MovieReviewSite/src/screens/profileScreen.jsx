@@ -5,10 +5,10 @@ import BottomBar from "../component/bottomBar";
 import ListIcon from "../component/listIcon";
 import { Row, Col, Container } from "react-bootstrap";
 import "../ScreensStyle/profileScreen.css";
-function ProfileScreen() {
+function ProfileScreen({handleLogout}) {
   return (
     <div className="profileScreen">
-      <TopBar></TopBar>
+      <TopBar handleLogout={handleLogout} />
       <Row>
         <img
           className="ms-auto me-auto profile-picture"
