@@ -10,7 +10,7 @@ import MovieIcon from "../component/movieIcon";
 import axios from "axios";
 import mongoose from "mongoose";
 
-function MovieReleasesScreen() {
+function MovieReleasesScreen({handleLogout}) {
   const [movies, setMovies] = useState([]);
   const loadMoviesAPI = async () => {
     const response = await axios.get("http://localhost:8080/api/movie", {});
@@ -38,10 +38,23 @@ function MovieReleasesScreen() {
 
   return (
     <div className="movieReleasesScreen">
-      <TopBar></TopBar>
+      <TopBar handleLogout={handleLogout} />
       <Container className="container">
         <Row xs={12} className="pt-4">
           <Col xs={12} className="mb-4">
+          <Row>
+            <Col xs={{offset:1, span:6}}>
+            {/* <input ref={searchRef}></input> */}
+            <input></input>
+          <button
+            onClick={() => {
+              //loadMovieSearchAPI();
+            }}
+          >
+            Buscar
+          </button>
+          </Col>
+          </Row>
             <h2 className="text-start">Movie Releases</h2>
           </Col>
           <Row xs={12} className="d-flex flex-row">

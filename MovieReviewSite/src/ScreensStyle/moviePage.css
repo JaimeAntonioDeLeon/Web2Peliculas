@@ -20,3 +20,6 @@
 .moviePage .posterMovie {
   width: 100%;
 }
+.moviePage .postHeader{
+  display: inline;
+}

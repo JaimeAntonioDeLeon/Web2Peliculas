@@ -10,7 +10,7 @@ import axios from "axios";
 import mongoose from "mongoose";
 import { useNavigate, Link } from "react-router-dom";
 
-function RecentPostsScreen() {
+function RecentPostsScreen({handleLogout}) {
   const loginAPI = async () => {
     console.log("nah");
     const response = await axios.post("http://localhost:8080/api/users/login", {
@@ -54,10 +54,18 @@ function RecentPostsScreen() {
 
   return (
     <div className="movieReleasesScreen">
-      <TopBar></TopBar>
+      <TopBar handleLogout={handleLogout} />
       <Container className="container pb-3">
         <Row xs={12} className="pt-4">
           <Col xs={{ span: 10, offset: 1 }} className="mb-4">
+          <Row><input ref={searchRef}></input>
+          <button
+            onClick={() => {
+              //loadMovieSearchAPI();
+            }}
+          >
+            Buscar
+          </button></Row>
             <h2 className="text-start">Recent Posts</h2>
           </Col>
         </Row>

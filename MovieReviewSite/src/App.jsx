@@ -99,16 +99,16 @@ function App() {
                 />
               }
             ></Route>
-            <Route path="/movieList" element={<MovieListScreen />} />
-            <Route path="/moviePage" element={<MoviePage />} />
-            <Route path="/moviePost" element={<MoviePostScreen />} />
-            <Route path="/profile" element={<ProfileScreen />} />
-            <Route path="/recentLists" element={<ListScreen />} />
-            <Route path="/movieReleases" element={<MovieReleasesScreen />} />
-            <Route path="/recentPosts" element={<RecentPostsScreen />} />
+            <Route path="/movieList" element={<MovieListScreen handleLogout={handleLogout}/>} />
+            <Route path="/moviePage" element={<MoviePage handleLogout={handleLogout}/>} />
+            <Route path="/moviePost" element={<MoviePostScreen handleLogout={handleLogout}/>} />
+            <Route path="/profile" element={<ProfileScreen handleLogout={handleLogout}/>} />
+            <Route path="/recentLists" element={<ListScreen handleLogout={handleLogout}/>} />
+            <Route path="/movieReleases" element={<MovieReleasesScreen handleLogout={handleLogout}/>} />
+            <Route path="/recentPosts" element={<RecentPostsScreen handleLogout={handleLogout}/>} />
             <Route
               path="/createPost"
-              element={<CreatePost loginSession={login} onLogin={setLogin} />}
+              element={<CreatePost loginSession={login} onLogin={setLogin} handleLogout={handleLogout}/>}
             />
           </Routes>
         </div>
