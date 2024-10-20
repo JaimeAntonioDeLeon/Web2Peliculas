@@ -20,6 +20,7 @@ function MainScreen({ loginSession, setLogin, handleLogout }) {
   const location = useLocation();
 
   const [movies, setMovies] = useState([]);
+  const [posts, setPosts] = useState([]);
   const searchRef = useRef();
 
   const loadMovieSearchAPI = async () => {
@@ -40,6 +41,25 @@ function MainScreen({ loginSession, setLogin, handleLogout }) {
     }
   };
 
+  const postSearchAPI = async () => {
+    const response = await axios.post(
+      "http://localhost:8080/api/posts/search",
+      {
+        title: searchRef.current.value,
+      }
+    );
+    console.log(response.data);
+    if (response.data) {
+      console.log("encontrado posts!");
+      // console.log(response.data[0].image);
+      console.log(response.data);
+      setPosts(response.data);
+    } else {
+      setWrongLogin(true);
+    }
+  };
+
+
   useEffect(() => {
     console.log(localStorage.getItem("login"));
     if (localStorage.getItem("login")) {
@@ -47,6 +67,7 @@ function MainScreen({ loginSession, setLogin, handleLogout }) {
     } else {
       //navigate('/');
     }
+    postSearchAPI();
     // const items = JSON.parse(localStorage.getItem('login'));
     // if (items) {
     //  setLogin(items);
@@ -78,7 +99,7 @@ function MainScreen({ loginSession, setLogin, handleLogout }) {
           </button>
         </div>
       </div> */}
-        <div>
+        {/* <div>
           <h3>Movies</h3>
           <input ref={searchRef}></input>
           <button
@@ -97,10 +118,27 @@ function MainScreen({ loginSession, setLogin, handleLogout }) {
               );
             })}
           </Row>
-        </div>
+        </div> */}
 
         <div>
           <h3>Recent Posts</h3>
+          <input ref={searchRef}></input>
+          <button
+            onClick={() => {
+              postSearchAPI();
+            }}
+          >
+            Buscar
+          </button>
+          <Row>
+            {posts.map((post) => {
+              return (
+                <Row>
+                  <MoviePost post={post}/>
+                </Row>
+              );
+            })}
+          </Row>
           <MoviePost post={{}} />
           <MoviePost post={{}} />
           <MoviePost post={{}}/>

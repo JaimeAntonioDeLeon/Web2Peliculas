@@ -3,6 +3,9 @@ import ReactDOM from "react-dom";
 import TopBar from "../component/topBar";
 import BottomBar from "../component/bottomBar";
 import { Row, Col, Container } from "react-bootstrap";
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import "../ScreensStyle/moviePage.css";
 import MoviePost from "../component/moviePost";
 import MovieIcon from "../component/movieIcon";
@@ -34,6 +37,15 @@ function MoviePage({handleLogout}) {
   const [lists, setLists] = useState([]);
   const [posts, setPosts] = useState([]);
 
+  const [login, setLogin] = useState({});
+  const [userLists, setUserLists] = useState([]);
+
+  const [show, setShow] = useState(false);
+
+
+  const listNameRef = useRef();
+
+
   const loadMoviesAPI = async () => {
     const response = await axios.post("http://localhost:8080/api/movie/post", {
       _id: new mongoose.Types.ObjectId(movieKey),
@@ -63,6 +75,48 @@ function MoviePage({handleLogout}) {
       // console.log(response.data[0].image);
       // setImage(response.data[1].image);
     } else {
+    }
+  };
+
+  const listsUserAPI = async () => {
+    const response = await axios.post("http://localhost:8080/api/list/user", {
+      id: new mongoose.Types.ObjectId(login._id),
+    });
+    console.log(response.data);
+    if (response.data) {
+      console.log("listas encontradas!");
+      // console.log(response.data);
+      setUserLists(response.data)
+      // setLoading(false);
+      // console.log(response.data[0].image);
+      // setImage(response.data[1].image);
+    } else {
+    }
+  };
+
+  const createListAPI = async () => {
+    try {
+      console.log("Creando lista!")
+      const response = await axios.post("http://localhost:8080/api/list/", {
+        title: listNameRef.current.value,
+        movies: [new mongoose.Types.ObjectId(movieKey)],
+        user_id: new mongoose.Types.ObjectId(login._id),
+        created_at: new Date(),
+      });
+      // setWrongRegister(false);
+
+      //setArray(response.data.fruits);
+      //setArray(response.data);
+      if (response.data) {
+        console.log(response.data._id);
+        //navigate('/');
+      } else {
+        console.log("Ha fallado");
+      }
+      console.log(response.data);
+    } catch (e) {
+      console.log(e);
+      //setWrongRegister(true);
     }
   };
 
@@ -139,6 +193,9 @@ function MoviePage({handleLogout}) {
 
   //   }
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   useEffect(() => {
     loadMoviesAPI();
     listsMovieAPI();
@@ -146,7 +203,17 @@ function MoviePage({handleLogout}) {
     // deletePostAPI();
     // updatePostAPI();
     //loadMovieSearchAPI();
+    if (localStorage.getItem("login")) {
+      const items = JSON.parse(localStorage.getItem("login"));
+      setLogin(items);
+      //console.log(login); //No aparece nada porque useState toma rato en reaccionar, eso se aplica a lo que importo tambien!
+    }
   }, []);
+
+  useEffect(() => {
+    listsUserAPI();
+  }, [login]);
+  
 
   return (
     <div className="moviePage">
@@ -200,7 +267,7 @@ function MoviePage({handleLogout}) {
           <Col xs={{ span: 4, offset: 1 }} className="text-start mb-3">
             <h3>Lists that have this movie</h3>
           </Col>
-          <Col xs={{offset: 5, span:2}}><button className="ms-auto">Add to list</button></Col>
+          <Col xs={{offset: 5, span:2}}><button className="ms-auto" onClick={()=>{handleShow()}}>Add to list</button></Col>
           <Col xs={{ span: 2, offset: 1 }} className="mb-3">
             <ListIcon list={{}} />
             {/* <div>
@@ -249,6 +316,54 @@ function MoviePage({handleLogout}) {
       </Container>
       )}
       <BottomBar />
+
+      <Modal show={show} onHide={handleClose}size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>Menu de lista</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <Container>
+              <Row>
+                <Col>
+                <h3>Crear Lista</h3>
+                <p className="mb-3">La lista se creara con la pelicula agregada automaticamente!</p>
+                <Row>
+                <input type="text" className="mb-4 w-75" ref={listNameRef}/>
+                </Row>
+                <Row className="">
+                <button className="w-50" onClick={()=>{if(listNameRef.current.value != "")createListAPI()}}> Guardar </button>
+                </Row>
+                </Col>
+                <Col>
+                <h3>Agregar a lista existente</h3>
+                <p>Selecciona la lista a la que deseas agregar la pelicula y oprime agregar!</p>
+                <Form.Select aria-label="Default select example" className="mb-4 listSelect" >
+                  <option>Open this select menu</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                  {userLists.map((list) => {
+                    console.log("lista de usuario: " + list.title);
+                    return (
+                        <option value={list._id} >{list.title}</option>
+                    );
+                  })}   
+                </Form.Select>
+                <Row>
+                <Button variant="primary" onClick={handleClose}className="w-50 listSelect" disabled={userLists.length <= 0}>
+                  Guardar
+                </Button>
+                </Row>
+                </Col>
+              </Row>
+            </Container> 
+          </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cerrar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

@@ -23,3 +23,7 @@
 .moviePage .postHeader{
   display: inline;
 }
+.listSelect{
+  background-color: black;
+  color: aliceblue;
+}
