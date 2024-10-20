@@ -7,9 +7,24 @@ import "../ScreensStyle/moviePostScreen.css";
 import axios from "axios";
 import mongoose from "mongoose";
 import Comment from "../component/comment";
+import {
+  redirect,
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
+
 function MoviePostScreen({handleLogout}) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  // console.log(searchParams.get("movie"));
+  const postKey = searchParams.get("post");
+  console.log("This post is: " + postKey);
+
   const bodyRef = useRef();
   const [login, setLogin] = useState();
+  const [post, setPost] = useState({});
+  const [comments, setComments] = useState([]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -23,12 +38,28 @@ function MoviePostScreen({handleLogout}) {
     }
   };
 
+  const loadPostAPI = async () => {
+    const response = await axios.post("http://localhost:8080/api/posts/post", {
+      id: new mongoose.Types.ObjectId(postKey),
+    });
+    console.log(response.data);
+    if (response.data) {
+      console.log("post encontrado!");
+      // console.log(response.data);
+      setPost(response.data);
+      // setLoading(false);
+      // console.log(response.data[0].image);
+      // setImage(response.data[1].image);
+    } else {
+    }
+  };
+
   const createCommentAPI = async () => {
     try {
       const response = await axios.post("http://localhost:8080/api/comments/", {
         body: bodyRef.current.value,
         user_id: new mongoose.Types.ObjectId(login._id),
-        post_id: new mongoose.Types.ObjectId(1),
+        post_id: new mongoose.Types.ObjectId(postKey),
         created_at: new Date(),
       });
       // setWrongRegister(false);
@@ -38,9 +69,10 @@ function MoviePostScreen({handleLogout}) {
       if (response.data) {
         //navigate('/');
       } else {
-        console.log("no sexo");
+        console.log("no funciono");
       }
       console.log(response.data);
+      loadCommentAPI();
     } catch (e) {
       console.log(e);
       //setWrongRegister(true);
@@ -48,14 +80,17 @@ function MoviePostScreen({handleLogout}) {
   };
 
   const loadCommentAPI = async () => {
-    const response = await axios.get("http://localhost:8080/api/comments", {});
+    const response = await axios.post("http://localhost:8080/api/comments/post", {
+      id: new mongoose.Types.ObjectId(postKey),
+    });
     console.log(response.data);
     if (response.data) {
       console.log("encontrado!");
       // console.log(response.data[0].image);
       console.log(response.data);
+      setComments(response.data);
     } else {
-      setWrongLogin(true);
+      //setWrongLogin(true);
     }
   };
 
@@ -113,6 +148,7 @@ function MoviePostScreen({handleLogout}) {
   };
 
   useEffect(() => {
+    loadPostAPI();
     loadCommentAPI();
     // console.log(loginSession);
     if (localStorage.getItem("login")) {
@@ -136,16 +172,17 @@ function MoviePostScreen({handleLogout}) {
                 style={{ width: 100, lenght: 100 }}
                 src="https://static.vecteezy.com/system/resources/previews/000/574/215/non_2x/vector-sign-of-user-icon.jpg"
               ></img>
+              <h5>{post.user_id && post.user_id.username}{!post.user_id && "USER"}</h5>
             </Col>
             <Col xs={10} className="text-start">
               <Row className="mb-4">
-                <h2>Post Title</h2>
+                <h2>{post.title??"Post Title"}</h2>
               </Row>
               <Row className="mb-4">
                 <h4>Movie Subject</h4>
               </Row>
               <Row>
-                <p> Post description </p>
+                <p> {post.body ?? "Post description"} </p>
               </Row>
             </Col>
             </Row>
@@ -166,7 +203,7 @@ function MoviePostScreen({handleLogout}) {
             <h5 className="text-start">Write a comment:</h5>
             <Form.Control
               placeholder="Leave a comment here"
-              style={{ backgroundColor: "black" }}
+              style={{ backgroundColor: "black", color:"white"}}
               ref={bodyRef}
             />
           </Row>
@@ -182,8 +219,14 @@ function MoviePostScreen({handleLogout}) {
                         </Col>
                         <Col xs={9}>This is my coment</Col>
                     </Row> */}
-        <Comment text={"This is my comment"} />
-        <Comment text={"This is my comment"} />
+        <Comment comment={{body: "This is my comment"}} />
+        <Comment comment={{body: "This is my comment"}} />
+        {comments.map((comment) => {
+            console.log(post);
+              return (
+                    <Comment comment={comment} />
+              );
+            })}
       </Container>
       <BottomBar />
     </div>

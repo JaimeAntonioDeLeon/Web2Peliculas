@@ -2,15 +2,28 @@ import { React, useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
 import TopBar from "../component/topBar";
 import BottomBar from "../component/bottomBar";
-import { Row, Col, Container, FloatingLabel, Form } from "react-bootstrap";
+import { Row, Col, Container, FloatingLabel, Form, Alert, Toast } from "react-bootstrap";
 import "../ScreensStyle/createPost.css";
 
 import axios from "axios";
 import mongoose from "mongoose";
+import {
+  redirect,
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 
 function CreatePost({loginSession, onLogin, handleLogout}) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  // console.log(searchParams.get("movie"));
+  const movieKey = searchParams.get("movie");
+  console.log("The key is " + movieKey);
+
   const [login, setLogin] = useState();
   const [image, setImage] = useState(null);
+  const [movies, setMovies] = useState({});
   const [savedImage, setSavedImage] = useState(null);
   const titleRef = useRef();
   const bodyRef = useRef();
@@ -51,7 +64,7 @@ function CreatePost({loginSession, onLogin, handleLogout}) {
         body: bodyRef.current.value,
         // "user_id":new mongoose.Types.ObjectId(1),
         user_id: new mongoose.Types.ObjectId(login._id),
-        movie_id: new mongoose.Types.ObjectId(1),
+        movie_id: new mongoose.Types.ObjectId(movieKey),
         status: "Posted",
         created_at: new Date(),
       });
@@ -67,11 +80,29 @@ function CreatePost({loginSession, onLogin, handleLogout}) {
         }
         //navigate('/');
       } else {
-        console.log("no sexo");
+        console.log("Ha fallado");
       }
       console.log(response.data);
+      <Alert variant="success">Subida exitosa!</Alert>
+      return(
+      <Toast bg="Success">
+         <Toast.Header>
+            <img
+              src="holder.js/20x20?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">Post exitoso!</strong>
+            <small>Ahora</small>
+          </Toast.Header>
+          <Toast.Body className={variant === 'Dark' && 'text-white'}>
+            Su post ahora es visible publicamente. 
+          </Toast.Body>
+      </Toast>
+      )
     } catch (e) {
       console.log(e);
+      <Alert variant="danger">Subida fallida!</Alert>
       //setWrongRegister(true);
     }
   };
@@ -109,14 +140,31 @@ function CreatePost({loginSession, onLogin, handleLogout}) {
     if (response.data) {
       console.log("encontrado!");
       console.log(response.data[0].image);
-      setImage(response.data[1].image);
+      setImage(response.data[2].image);
     } else {
       setWrongLogin(true);
     }
   };
 
+  const loadMoviesAPI = async () => {
+    const response = await axios.post("http://localhost:8080/api/movie/post", {
+      _id: new mongoose.Types.ObjectId(movieKey),
+    });
+    console.log(response.data);
+    if (response.data) {
+      console.log("pelicula encontrada!");
+      // console.log(response.data);
+      setMovies(response.data);
+      // setLoading(false);
+      // console.log(response.data[0].image);
+      // setImage(response.data[1].image);
+    } else {
+    }
+  };
+
   useEffect(() => {
     loadImagesAPI();
+    loadMoviesAPI();
     // console.log(loginSession);
     if (localStorage.getItem("login")) {
       const items = JSON.parse(localStorage.getItem("login"));
@@ -132,7 +180,7 @@ function CreatePost({loginSession, onLogin, handleLogout}) {
       <Container className="container pb-4">
         <Row xs={12}>
           <Col xs={4}>
-            <h2>Topic: MOVIE NAME</h2>
+            <h2>{"Topic: " + movies.title??  "MOVIE NAME"}</h2>
           </Col>
           <Row xs={12} className="d-flex flex-row">
             <Col xs={{ span: 2 }} className="mb-3">

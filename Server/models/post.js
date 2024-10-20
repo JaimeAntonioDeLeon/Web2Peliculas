@@ -11,6 +11,7 @@ const postSchema = new mongoose.Schema({
     },
     user_id: {
         type: mongoose.Types.ObjectId,
+        ref: 'users',
         required: true
     },
     movie_id: {

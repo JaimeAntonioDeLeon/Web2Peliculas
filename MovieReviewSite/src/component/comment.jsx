@@ -1,7 +1,33 @@
+import { React, useState, useRef, useEffect } from "react";
 import "../componentStyle/comment.css";
 import { Row, Col, Container } from "react-bootstrap";
+import axios from "axios";
+import mongoose from "mongoose";
 
-function Comment({ text }) {
+function Comment({ comment }) {
+
+  const [comments, setComments] = useState([]);
+
+  const loadCommentAPI = async () => {
+    console.log(comment);
+    const response = await axios.post("http://localhost:8080/api/comments/get", {
+      id: new mongoose.Types.ObjectId(comment._id),
+    });
+    console.log(response.data);
+    if (response.data) {
+      console.log("comentario encontrado!");
+      // console.log(response.data[0].image);
+      console.log(response.data);
+      setComments(response.data);
+    } else {
+      //setWrongLogin(true);
+    }
+  };
+
+  useEffect(() => {
+    loadCommentAPI();
+  }, []);
+
   return (
     <Row xs={10} className="comment ms-3 me-3 mb-3 pb-3 pt-3">
       <Col xs={{ span: 1 }}>
@@ -12,7 +38,12 @@ function Comment({ text }) {
         />
       </Col>
       <Col xs={8} className="ms-5">
-        {text}
+      <Row>
+      {comments.user_id && (comments.user_id.username)} {!comments.user_id && ("Username")} 
+        </Row>
+      <Row>
+        {comment.body}
+        </Row>
       </Col>
     </Row>
   );

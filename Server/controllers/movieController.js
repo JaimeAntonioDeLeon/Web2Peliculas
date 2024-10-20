@@ -6,7 +6,7 @@ const getMovie = async (req, res)=>{
         const comments = await Movie.find({});
         res.json(comments);
     }
-    catch{
+    catch(error){
         res.status(500).json({message: error.message});
     }
 }

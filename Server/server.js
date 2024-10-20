@@ -13,6 +13,7 @@ const imageRoute = require('./routes/imageRoute.js');
 const commentRoute = require('./routes/commentRoute.js');
 const movieRoute = require('./routes/movieRoute.js');
 const listRoute = require('./routes/listRoute.js');
+const movieListRoute = require('./routes/movieListRoute.js');
 
 //middleware
 app.use(express.json({limit:'25mb'}));
@@ -25,6 +26,7 @@ app.use("/api/image", imageRoute);
 app.use("/api/comments", commentRoute);
 app.use("/api/movie", movieRoute);
 app.use("/api/list", listRoute);
+app.use("/api/movieList", movieListRoute);
 
 app.use(cors({
     origin: "*"

@@ -19,15 +19,20 @@ import ListIcon from "../component/listIcon";
 
 function MoviePage({handleLogout}) {
   const [searchParams, setSearchParams] = useSearchParams();
-  console.log(searchParams.get("movie"));
+  // console.log(searchParams.get("movie"));
   const movieKey = searchParams.get("movie");
   const navigate = useNavigate();
   const location = useLocation();
+  console.log("Using LOCATION");
   console.log(location);
+  
   // const movieKey = location.get('movie');
   // console.log(movieKey);
 
-  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [movies, setMovies] = useState();
+  const [lists, setLists] = useState([]);
+  const [posts, setPosts] = useState([]);
 
   const loadMoviesAPI = async () => {
     const response = await axios.post("http://localhost:8080/api/movie/post", {
@@ -36,8 +41,41 @@ function MoviePage({handleLogout}) {
     console.log(response.data);
     if (response.data) {
       console.log("pelicula encontrada!");
-      console.log(response.data);
+      // console.log(response.data);
       setMovies(response.data);
+      setLoading(false);
+      // console.log(response.data[0].image);
+      // setImage(response.data[1].image);
+    } else {
+    }
+  };
+
+  const listsMovieAPI = async () => {
+    const response = await axios.post("http://localhost:8080/api/list/movie", {
+      movie_id: new mongoose.Types.ObjectId(movieKey),
+    });
+    console.log(response.data);
+    if (response.data) {
+      console.log("listas encontradas!");
+      // console.log(response.data);
+      setLists(response.data)
+      // setLoading(false);
+      // console.log(response.data[0].image);
+      // setImage(response.data[1].image);
+    } else {
+    }
+  };
+
+  const postsMovieAPI = async () => {
+    const response = await axios.post("http://localhost:8080/api/posts/movie", {
+      movie_id: new mongoose.Types.ObjectId(movieKey),
+    });
+    console.log(response.data);
+    if (response.data) {
+      console.log("posts encontrados!");
+      // console.log(response.data);
+      setPosts(response.data)
+      // setLoading(false);
       // console.log(response.data[0].image);
       // setImage(response.data[1].image);
     } else {
@@ -103,6 +141,8 @@ function MoviePage({handleLogout}) {
 
   useEffect(() => {
     loadMoviesAPI();
+    listsMovieAPI();
+    postsMovieAPI();
     // deletePostAPI();
     // updatePostAPI();
     //loadMovieSearchAPI();
@@ -111,6 +151,7 @@ function MoviePage({handleLogout}) {
   return (
     <div className="moviePage">
       <TopBar handleLogout={handleLogout} />
+      {!loading && (
       <Container className="container  pt-4">
         <Row xs={12}>
           <Col xs={{ span: 4, offset: 1 }} className="mb-3">
@@ -124,7 +165,7 @@ function MoviePage({handleLogout}) {
                 alt="No"
               ></img>
               <div>
-                <h4>{"TITULO"}</h4>
+                <h4>{movies.title??"TITULO"}</h4>
               </div>
             </div>
           </Col>
@@ -142,10 +183,10 @@ function MoviePage({handleLogout}) {
                 allowfullscreen
               ></iframe>
               <div className="mb-5">
-                <h4>{"Release date: " + "FECHA"}</h4>
+                <h4>{"Release date: " + movies.released_at.slice(0,10)}</h4>
               </div>
               <h4>Movie Synopsis</h4>
-              <p>Texto</p>
+              <p>{movies.synopsis?? "No hay synopis"}</p>
             </div>
           </Col>
         </Row>
@@ -160,13 +201,22 @@ function MoviePage({handleLogout}) {
             <h3>Lists that have this movie</h3>
           </Col>
           <Col xs={{offset: 5, span:2}}><button className="ms-auto">Add to list</button></Col>
-          <Col xs={{ span: 10, offset: 1 }} className="mb-3">
-            <ListIcon />
+          <Col xs={{ span: 2, offset: 1 }} className="mb-3">
+            <ListIcon list={{}} />
             {/* <div>
                 <img className='mb-2' style={{width:100, height: 150}} src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.hartz.com%2Fwp-content%2Fuploads%2F2022%2F04%2Fsmall-dog-owners-1.jpg&f=1&nofb=1&ipt=48d24e69f5f25c8f2c431ca7495446040c19430e0de3a573c869ef543ffe19ec&ipo=images" alt="No"></img>
                 <div><h4>Title</h4></div>
                 </div> */}
           </Col>
+          {lists.map((list) => {
+            console.log(list);
+              return (
+                <Col xs={{ span: 2, offset: 1 }} className="mb-3">
+                  <ListIcon list={list} />
+                </Col>
+              );
+            })}
+
         </Row>
 
         <Row>
@@ -179,14 +229,25 @@ function MoviePage({handleLogout}) {
           <Col className="text-start" xs={{ span: 4, offset: 1 }}>
             <h3>Posts about this movie</h3> 
           </Col>
-          <Col xs={{offset: 5, span:2}}><button className="ms-auto">Make post</button></Col>
+          <Col xs={{offset: 5, span:2}}><button className="ms-auto" onClick={()=>{navigate(`/createPost?movie=${movieKey}`);}}>Make post</button></Col>
         </Row>
         <Row>
-          <Col xs={{ span: 10, offset: 1 }}>
-            <MoviePost title={"La pelicula mas pelicula que he visto"} />
+          <Col xs={{ span: 10, offset: 1 }}  className="mb-3">
+            <MoviePost post={{}} />
           </Col>
         </Row>
+        {posts.map((post) => {
+            console.log(post);
+              return (
+                <Row>
+                  <Col xs={{ span: 10, offset: 1 }} className="mb-3">
+                    <MoviePost post={post} />
+                  </Col>
+                </Row>
+              );
+            })}
       </Container>
+      )}
       <BottomBar />
     </div>
   );
