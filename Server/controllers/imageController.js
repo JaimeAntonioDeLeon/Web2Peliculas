@@ -5,7 +5,7 @@ const getImages = async (req, res)=>{
         const images = await Image.find({});
         res.json(images);
     }
-    catch{
+    catch(error){
         res.status(500).json({message: error.message});
     }
 }

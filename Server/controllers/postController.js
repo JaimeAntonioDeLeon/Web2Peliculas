@@ -5,17 +5,28 @@ const getPosts = async (req, res)=>{
         const post = await Post.find({});
         res.json(post);
     }
-    catch{
+    catch(error){
         res.status(500).json({message: error.message});
     }
 }
 
 const getPostSelected = async (req, res)=>{
     try{
-        //const {id} = req.params;
-        const post = await Post.findOne(req.body);
+        const {id} = req.body;
+        const post = await Post.findOne({"_id":id}).populate('user_id');
         res.status(200).json(post);
     }catch(error){
+        res.status(500).json({message: error.message});
+    }
+}
+
+const getPostsMovie = async (req, res)=>{
+    try{
+        const {movie_id} = req.body;
+        const lists = await Post.find({movie_id:movie_id});
+        res.json(lists);
+    }
+    catch(error){
         res.status(500).json({message: error.message});
     }
 }
@@ -55,6 +66,16 @@ const postUpdate = async (req, res) => {
     }catch(error){
         res.status(500).json({message: error.message});
     }
+};
+const getPostSearch = async (req, res)=>{
+    try{
+        const {title} = req.body;
+        const tit = new String(title);
+        const comment = await Post.find({ 'title' : { '$regex' : tit, '$options' : 'i' } });
+        res.status(200).json(comment);
+    }catch(error){
+        res.status(500).json({message: error.message});
+    }
 }
 
 module.exports ={
@@ -62,5 +83,7 @@ module.exports ={
     getPostSelected,
     postPost,
     postUpdate,
-    deletePost
+    deletePost,
+    getPostSearch,
+    getPostsMovie
 }

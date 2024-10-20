@@ -101,9 +101,9 @@ function MainScreen({ loginSession, setLogin, handleLogout }) {
 
         <div>
           <h3>Recent Posts</h3>
-          <MoviePost user="Pedro" title="Ta decente" />
-          <MoviePost user="MangoMago99" title="Murio, pero regreso!" />
-          <MoviePost user="NoBalls10" title="It exists" />
+          <MoviePost post={{}} />
+          <MoviePost post={{}} />
+          <MoviePost post={{}}/>
           <div>
             You're gay
             <br />

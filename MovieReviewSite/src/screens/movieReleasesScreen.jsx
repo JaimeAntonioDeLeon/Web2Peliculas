@@ -12,8 +12,25 @@ import mongoose from "mongoose";
 
 function MovieReleasesScreen({handleLogout}) {
   const [movies, setMovies] = useState([]);
+  const SearchBarRef = useRef();
+
   const loadMoviesAPI = async () => {
     const response = await axios.get("http://localhost:8080/api/movie", {});
+    console.log(response.data);
+    if (response.data) {
+      console.log("encontrado!");
+      console.log(response.data);
+      setMovies(response.data);
+      // console.log(response.data[0].image);
+      // setImage(response.data[1].image);
+    } else {
+    }
+  };
+
+  const searchMoviesAPI = async () => {
+    const response = await axios.post("http://localhost:8080/api/movie/search", {
+      title: SearchBarRef.current.value,
+    });
     console.log(response.data);
     if (response.data) {
       console.log("encontrado!");
@@ -45,10 +62,10 @@ function MovieReleasesScreen({handleLogout}) {
           <Row>
             <Col xs={{offset:1, span:6}}>
             {/* <input ref={searchRef}></input> */}
-            <input></input>
+            <input ref={SearchBarRef}></input>
           <button
             onClick={() => {
-              //loadMovieSearchAPI();
+              searchMoviesAPI();
             }}
           >
             Buscar
