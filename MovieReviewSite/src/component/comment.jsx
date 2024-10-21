@@ -5,27 +5,104 @@ import axios from "axios";
 import mongoose from "mongoose";
 
 function Comment({ comment }) {
-
   const [comments, setComments] = useState([]);
+  const [login, setLogin] = useState({});
+  const [updateMode, setUpdateMode] = useState(false);
+  const [commentBody, setCommentBody] = useState();
 
   const loadCommentAPI = async () => {
     console.log(comment);
-    const response = await axios.post("http://localhost:8080/api/comments/get", {
-      id: new mongoose.Types.ObjectId(comment._id),
-    });
+    const response = await axios.post(
+      "http://localhost:8080/api/comments/get",
+      {
+        id: new mongoose.Types.ObjectId(comment._id),
+      }
+    );
     console.log(response.data);
     if (response.data) {
       console.log("comentario encontrado!");
       // console.log(response.data[0].image);
       console.log(response.data);
       setComments(response.data);
+      setCommentBody(response.data.body);
     } else {
       //setWrongLogin(true);
     }
   };
 
+  function onChange(event) {
+    setCommentBody(event.target.value);
+  }
+
+  const updateCommentAPI = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/comments/update",
+        {
+          _id: comment._id,
+          body: commentBody,
+        }
+      );
+      if (response.data) {
+        //navigate('/');
+      } else {
+        console.log("no funciono");
+      }
+      console.log(response.data);
+      loadCommentAPI();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const deleteCommentAPI = async () => {
+    const response = await axios.post(
+      "http://localhost:8080/api/posts/delete",
+      {
+        _id: comment._id,
+      }
+    );
+    console.log(response.data);
+    if (response.data) {
+      console.log("comentario eliminado!");
+      console.log(response.data);
+      // console.log(response.data[0].image);
+      // setImage(response.data[1].image);
+    } else {
+    }
+  };
+
+  const eliminate = () => {
+    console.log("Eliminando");
+    if (commentBody == "") {
+      // setFaltanDatos(true);
+      // setWrongRegister(false);
+    } else {
+      //setFaltanDatos(false);
+      deleteCommentAPI();
+    }
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    console.log("submitting");
+    if (commentBody == "") {
+      // setFaltanDatos(true);
+      // setWrongRegister(false);
+    } else {
+      //setFaltanDatos(false);
+      updateCommentAPI();
+    }
+  };
+
   useEffect(() => {
     loadCommentAPI();
+    if (localStorage.getItem("login")) {
+      const items = JSON.parse(localStorage.getItem("login"));
+      console.log(items);
+      setLogin(items);
+      console.log(login); //No aparece nada porque useState toma rato en reaccionar, eso se aplica a lo que importo tambien!
+    }
   }, []);
 
   return (
@@ -38,13 +115,49 @@ function Comment({ comment }) {
         />
       </Col>
       <Col xs={8} className="ms-5">
-      <Row>
-      {comments.user_id && (comments.user_id.username)} {!comments.user_id && ("Username")} 
+        <Row>
+          {comments.user_id && comments.user_id.username}{" "}
+          {!comments.user_id && "Username"}
         </Row>
-      <Row>
-        {comment.body}
-        </Row>
+        {!updateMode && <Row>{comment.body}</Row>}
+        {updateMode && (
+          <Row>
+            <form onSubmit={submitHandler}>
+              <input type="text" value={commentBody} onChange={onChange} />
+              <button type="submit">Save</button>
+            </form>
+          </Row>
+        )}
       </Col>
+      {login._id == comment.user_id && (
+        <Col xs={3}>
+          {!updateMode && (
+            <button
+              onClick={() => {
+                setUpdateMode(true);
+              }}
+            >
+              update
+            </button>
+          )}
+          {updateMode && (
+            <button
+              onClick={() => {
+                setUpdateMode(false);
+              }}
+            >
+              Nevermind
+            </button>
+          )}
+          <button
+            onClick={() => {
+              eliminate;
+            }}
+          >
+            delete
+          </button>
+        </Col>
+      )}
     </Row>
   );
 }
