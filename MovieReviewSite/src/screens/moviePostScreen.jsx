@@ -15,7 +15,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
-function MoviePostScreen({handleLogout}) {
+function MoviePostScreen({ handleLogout }) {
   const [searchParams, setSearchParams] = useSearchParams();
   // console.log(searchParams.get("movie"));
   const postKey = searchParams.get("post");
@@ -80,9 +80,12 @@ function MoviePostScreen({handleLogout}) {
   };
 
   const loadCommentAPI = async () => {
-    const response = await axios.post("http://localhost:8080/api/comments/post", {
-      id: new mongoose.Types.ObjectId(postKey),
-    });
+    const response = await axios.post(
+      "http://localhost:8080/api/comments/post",
+      {
+        id: new mongoose.Types.ObjectId(postKey),
+      }
+    );
     console.log(response.data);
     if (response.data) {
       console.log("encontrado!");
@@ -99,13 +102,14 @@ function MoviePostScreen({handleLogout}) {
     const response = await axios.post(
       "http://localhost:8080/api/posts/delete",
       {
-        _id: new mongoose.Types.ObjectId("670b4a12b684cd1a3ba70092"),
+        _id: new mongoose.Types.ObjectId(postKey),
       }
     );
     console.log(response.data);
     if (response.data) {
       console.log("post eliminado!");
       console.log(response.data);
+      navigate(`/`);
       // console.log(response.data[0].image);
       // setImage(response.data[1].image);
     } else {
@@ -164,34 +168,54 @@ function MoviePostScreen({handleLogout}) {
       <TopBar handleLogout={handleLogout} />
       <Container className="container mb-3 pb-4">
         <Row>
-          <Col xs={{offset:1, span:10}} className="mainPost mt-4 mb-4 pt-3">
-          <Row>
-            <Col xs={2}>
-              <img
-              className="userImage"
-                style={{ width: 100, lenght: 100 }}
-                src="https://static.vecteezy.com/system/resources/previews/000/574/215/non_2x/vector-sign-of-user-icon.jpg"
-              ></img>
-              <h5>{post.user_id && post.user_id.username}{!post.user_id && "USER"}</h5>
-            </Col>
-            <Col xs={10} className="text-start">
-              <Row className="mb-4">
-                <h2>{post.title??"Post Title"}</h2>
-              </Row>
-              <Row className="mb-4">
-                <h4>Movie Subject</h4>
-              </Row>
-              <Row>
-                <p> {post.body ?? "Post description"} </p>
-              </Row>
-            </Col>
+          <Col xs={{ offset: 1, span: 10 }} className="mainPost mt-4 mb-4 pt-3">
+            <Row>
+              <Col xs={2}>
+                <img
+                  className="userImage"
+                  style={{ width: 100, lenght: 100 }}
+                  src="https://static.vecteezy.com/system/resources/previews/000/574/215/non_2x/vector-sign-of-user-icon.jpg"
+                ></img>
+                <h5>
+                  {post.user_id && post.user_id.username}
+                  {!post.user_id && "USER"}
+                </h5>
+              </Col>
+              <Col xs={10} className="text-start">
+                <Row className="mb-4">
+                  <h2>{post.title ?? "Post Title"}</h2>
+                  {login._id == post.user_id && (
+                    <div>
+                      <button
+                        onClick={() => {
+                          navigate(`/updatePost?post=${post._id}`);
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => {
+                          deletePostAPI();
+                        }}
+                      >
+                        delete
+                      </button>
+                    </div>
+                  )}
+                </Row>
+                <Row className="mb-4">
+                  <h4>Movie Subject</h4>
+                </Row>
+                <Row>
+                  <p> {post.body ?? "Post description"} </p>
+                </Row>
+              </Col>
             </Row>
           </Col>
-          </Row>
-          <Row>
+        </Row>
+        <Row>
           <h4>Images</h4>
-          </Row>
-        
+        </Row>
       </Container>
 
       <Container className="container pb-3">
@@ -203,7 +227,7 @@ function MoviePostScreen({handleLogout}) {
             <h5 className="text-start">Write a comment:</h5>
             <Form.Control
               placeholder="Leave a comment here"
-              style={{ backgroundColor: "black", color:"white"}}
+              style={{ backgroundColor: "black", color: "white" }}
               ref={bodyRef}
             />
           </Row>
@@ -219,14 +243,12 @@ function MoviePostScreen({handleLogout}) {
                         </Col>
                         <Col xs={9}>This is my coment</Col>
                     </Row> */}
-        <Comment comment={{body: "This is my comment"}} />
-        <Comment comment={{body: "This is my comment"}} />
+        <Comment comment={{ body: "This is my comment" }} />
+        <Comment comment={{ body: "This is my comment" }} />
         {comments.map((comment) => {
-            console.log(post);
-              return (
-                    <Comment comment={comment} />
-              );
-            })}
+          console.log(post);
+          return <Comment comment={comment} />;
+        })}
       </Container>
       <BottomBar />
     </div>

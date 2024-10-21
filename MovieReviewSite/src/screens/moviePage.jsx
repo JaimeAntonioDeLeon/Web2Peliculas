@@ -3,9 +3,9 @@ import ReactDOM from "react-dom";
 import TopBar from "../component/topBar";
 import BottomBar from "../component/bottomBar";
 import { Row, Col, Container } from "react-bootstrap";
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import "../ScreensStyle/moviePage.css";
 import MoviePost from "../component/moviePost";
 import MovieIcon from "../component/movieIcon";
@@ -20,7 +20,7 @@ import {
 } from "react-router-dom";
 import ListIcon from "../component/listIcon";
 
-function MoviePage({handleLogout}) {
+function MoviePage({ handleLogout }) {
   const [searchParams, setSearchParams] = useSearchParams();
   // console.log(searchParams.get("movie"));
   const movieKey = searchParams.get("movie");
@@ -28,7 +28,7 @@ function MoviePage({handleLogout}) {
   const location = useLocation();
   console.log("Using LOCATION");
   console.log(location);
-  
+
   // const movieKey = location.get('movie');
   // console.log(movieKey);
 
@@ -42,9 +42,7 @@ function MoviePage({handleLogout}) {
 
   const [show, setShow] = useState(false);
 
-
   const listNameRef = useRef();
-
 
   const loadMoviesAPI = async () => {
     const response = await axios.post("http://localhost:8080/api/movie/post", {
@@ -70,7 +68,7 @@ function MoviePage({handleLogout}) {
     if (response.data) {
       console.log("listas encontradas!");
       // console.log(response.data);
-      setLists(response.data)
+      setLists(response.data);
       // setLoading(false);
       // console.log(response.data[0].image);
       // setImage(response.data[1].image);
@@ -86,7 +84,7 @@ function MoviePage({handleLogout}) {
     if (response.data) {
       console.log("listas encontradas!");
       // console.log(response.data);
-      setUserLists(response.data)
+      setUserLists(response.data);
       // setLoading(false);
       // console.log(response.data[0].image);
       // setImage(response.data[1].image);
@@ -96,7 +94,7 @@ function MoviePage({handleLogout}) {
 
   const createListAPI = async () => {
     try {
-      console.log("Creando lista!")
+      console.log("Creando lista!");
       const response = await axios.post("http://localhost:8080/api/list/", {
         title: listNameRef.current.value,
         movies: [new mongoose.Types.ObjectId(movieKey)],
@@ -128,7 +126,7 @@ function MoviePage({handleLogout}) {
     if (response.data) {
       console.log("posts encontrados!");
       // console.log(response.data);
-      setPosts(response.data)
+      setPosts(response.data);
       // setLoading(false);
       // console.log(response.data[0].image);
       // setImage(response.data[1].image);
@@ -213,151 +211,190 @@ function MoviePage({handleLogout}) {
   useEffect(() => {
     listsUserAPI();
   }, [login]);
-  
 
   return (
     <div className="moviePage">
       <TopBar handleLogout={handleLogout} />
       {!loading && (
-      <Container className="container  pt-4">
-        <Row xs={12}>
-          <Col xs={{ span: 4, offset: 1 }} className="mb-3">
-            {/* <MovieIcon movie={movies} /> */}
-            <div className="movieIcon">
-              <img
-                className="mb-2 posterMovie"
-                src={
-                  movies.poster??"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.hartz.com%2Fwp-content%2Fuploads%2F2022%2F04%2Fsmall-dog-owners-1.jpg&f=1&nofb=1&ipt=48d24e69f5f25c8f2c431ca7495446040c19430e0de3a573c869ef543ffe19ec&ipo=images"
-                }
-                alt="No"
-              ></img>
-              <div>
-                <h4>{movies.title??"TITULO"}</h4>
+        <Container className="container  pt-4">
+          <Row xs={12}>
+            <Col xs={{ span: 4, offset: 1 }} className="mb-3">
+              {/* <MovieIcon movie={movies} /> */}
+              <div className="movieIcon">
+                <img
+                  className="mb-2 posterMovie"
+                  src={
+                    movies.poster ??
+                    "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.hartz.com%2Fwp-content%2Fuploads%2F2022%2F04%2Fsmall-dog-owners-1.jpg&f=1&nofb=1&ipt=48d24e69f5f25c8f2c431ca7495446040c19430e0de3a573c869ef543ffe19ec&ipo=images"
+                  }
+                  alt="No"
+                ></img>
+                <div>
+                  <h4>{movies.title ?? "TITULO"}</h4>
+                </div>
               </div>
-            </div>
-          </Col>
-          <Col xs={6} className="mb-3">
-            <div className="trailer">
-              <h4 className="trailerText">Trailer</h4>
-              <iframe
-                width="560"
-                height="315"
-                src={movies.trailer??"https://www.youtube.com/embed/D_O2zAbZYeg?si=mXHE3N41U-GKuB2Q"}
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
-              ></iframe>
-              <div className="mb-5">
-                <h4>{"Release date: " + movies.released_at.slice(0,10)}</h4>
+            </Col>
+            <Col xs={6} className="mb-3">
+              <div className="trailer">
+                <h4 className="trailerText">Trailer</h4>
+                <iframe
+                  width="560"
+                  height="315"
+                  src={
+                    movies.trailer ??
+                    "https://www.youtube.com/embed/D_O2zAbZYeg?si=mXHE3N41U-GKuB2Q"
+                  }
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen
+                ></iframe>
+                <div className="mb-5">
+                  <h4>{"Release date: " + movies.released_at.slice(0, 10)}</h4>
+                </div>
+                <h4>Movie Synopsis</h4>
+                <p>{movies.synopsis ?? "No hay synopis"}</p>
               </div>
-              <h4>Movie Synopsis</h4>
-              <p>{movies.synopsis?? "No hay synopis"}</p>
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={{ span: 10, offset: 1 }}>
-            <hr className="separator" />
-          </Col>
-        </Row>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={{ span: 10, offset: 1 }}>
+              <hr className="separator" />
+            </Col>
+          </Row>
 
-        <Row xs={12} className="d-flex flex-row">
-          <Col xs={{ span: 4, offset: 1 }} className="text-start mb-3">
-            <h3>Lists that have this movie</h3>
-          </Col>
-          <Col xs={{offset: 5, span:2}}><button className="ms-auto" onClick={()=>{handleShow()}}>Add to list</button></Col>
-          <Col xs={{ span: 2, offset: 1 }} className="mb-3">
-            <ListIcon list={{}} />
-            {/* <div>
+          <Row xs={12} className="d-flex flex-row">
+            <Col xs={{ span: 4, offset: 1 }} className="text-start mb-3">
+              <h3>Lists that have this movie</h3>
+            </Col>
+            <Col xs={{ offset: 5, span: 2 }}>
+              <button
+                className="ms-auto"
+                onClick={() => {
+                  handleShow();
+                }}
+              >
+                Add to list
+              </button>
+            </Col>
+            <Col xs={{ span: 2, offset: 1 }} className="mb-3">
+              <ListIcon list={{}} />
+              {/* <div>
                 <img className='mb-2' style={{width:100, height: 150}} src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.hartz.com%2Fwp-content%2Fuploads%2F2022%2F04%2Fsmall-dog-owners-1.jpg&f=1&nofb=1&ipt=48d24e69f5f25c8f2c431ca7495446040c19430e0de3a573c869ef543ffe19ec&ipo=images" alt="No"></img>
                 <div><h4>Title</h4></div>
                 </div> */}
-          </Col>
-          {lists.map((list) => {
-            console.log(list);
+            </Col>
+            {lists.map((list) => {
+              console.log(list);
               return (
                 <Col xs={{ span: 2, offset: 1 }} className="mb-3">
                   <ListIcon list={list} />
                 </Col>
               );
             })}
+          </Row>
 
-        </Row>
+          <Row>
+            <Col xs={{ span: 10, offset: 1 }}>
+              <hr className="separator" />
+            </Col>
+          </Row>
 
-        <Row>
-          <Col xs={{ span: 10, offset: 1 }}>
-            <hr className="separator" />
-          </Col>
-        </Row>
-
-        <Row className="mb-4">
-          <Col className="text-start" xs={{ span: 4, offset: 1 }}>
-            <h3>Posts about this movie</h3> 
-          </Col>
-          <Col xs={{offset: 5, span:2}}><button className="ms-auto" onClick={()=>{navigate(`/createPost?movie=${movieKey}`);}}>Make post</button></Col>
-        </Row>
-        <Row>
-          <Col xs={{ span: 10, offset: 1 }}  className="mb-3">
-            <MoviePost post={{}} />
-          </Col>
-        </Row>
-        {posts.map((post) => {
+          <Row className="mb-4">
+            <Col className="text-start" xs={{ span: 4, offset: 1 }}>
+              <h3>Posts about this movie</h3>
+            </Col>
+            <Col xs={{ offset: 5, span: 2 }}>
+              <button
+                className="ms-auto"
+                onClick={() => {
+                  navigate(`/createPost?movie=${movieKey}`);
+                }}
+              >
+                Make post
+              </button>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={{ span: 10, offset: 1 }} className="mb-3">
+              <MoviePost post={{}} />
+            </Col>
+          </Row>
+          {posts.map((post) => {
             console.log(post);
-              return (
-                <Row>
-                  <Col xs={{ span: 10, offset: 1 }} className="mb-3">
-                    <MoviePost post={post} />
-                  </Col>
-                </Row>
-              );
-            })}
-      </Container>
+            return (
+              <Row>
+                <Col xs={{ span: 10, offset: 1 }} className="mb-3">
+                  <MoviePost post={post} />
+                </Col>
+              </Row>
+            );
+          })}
+        </Container>
       )}
       <BottomBar />
 
-      <Modal show={show} onHide={handleClose}size="lg">
+      <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Menu de lista</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Container>
-              <Row>
-                <Col>
+          <Container>
+            <Row>
+              <Col>
                 <h3>Crear Lista</h3>
-                <p className="mb-3">La lista se creara con la pelicula agregada automaticamente!</p>
+                <p className="mb-3">
+                  La lista se creara con la pelicula agregada automaticamente!
+                </p>
                 <Row>
-                <input type="text" className="mb-4 w-75" ref={listNameRef}/>
+                  <input type="text" className="mb-4 w-75" ref={listNameRef} />
                 </Row>
                 <Row className="">
-                <button className="w-50" onClick={()=>{if(listNameRef.current.value != "")createListAPI()}}> Guardar </button>
+                  <button
+                    className="w-50"
+                    onClick={() => {
+                      if (listNameRef.current.value != "") createListAPI();
+                    }}
+                  >
+                    {" "}
+                    Guardar{" "}
+                  </button>
                 </Row>
-                </Col>
-                <Col>
+              </Col>
+              <Col>
                 <h3>Agregar a lista existente</h3>
-                <p>Selecciona la lista a la que deseas agregar la pelicula y oprime agregar!</p>
-                <Form.Select aria-label="Default select example" className="mb-4 listSelect" >
+                <p>
+                  Selecciona la lista a la que deseas agregar la pelicula y
+                  oprime agregar!
+                </p>
+                <Form.Select
+                  aria-label="Default select example"
+                  className="mb-4 listSelect"
+                >
                   <option>Open this select menu</option>
                   <option value="1">One</option>
                   <option value="2">Two</option>
                   <option value="3">Three</option>
                   {userLists.map((list) => {
                     console.log("lista de usuario: " + list.title);
-                    return (
-                        <option value={list._id} >{list.title}</option>
-                    );
-                  })}   
+                    return <option value={list._id}>{list.title}</option>;
+                  })}
                 </Form.Select>
                 <Row>
-                <Button variant="primary" onClick={handleClose}className="w-50 listSelect" disabled={userLists.length <= 0}>
-                  Guardar
-                </Button>
+                  <Button
+                    variant="primary"
+                    onClick={handleClose}
+                    className="w-50 listSelect"
+                    disabled={userLists.length <= 0}
+                  >
+                    Guardar
+                  </Button>
                 </Row>
-                </Col>
-              </Row>
-            </Container> 
-          </Modal.Body>
+              </Col>
+            </Row>
+          </Container>
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Cerrar
