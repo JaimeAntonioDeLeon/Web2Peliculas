@@ -87,9 +87,9 @@ function App() {
               path="/login"
               element={<Login loginSession={login} onLogin={setLogin} />}
             ></Route>
-            {/* <Route path="/" element ={login? <MainScreen loginSession = {login} onLogin = {setLogin}/>:<Navigate to="/login"/>}>
-          </Route> */}
-            <Route
+            <Route path="/" element ={login? <MainScreen loginSession = {login} onLogin = {setLogin} handleLogout={handleLogout}/>:<Navigate to="/login"/>}>
+          </Route>
+            {/* <Route
               path="/"
               element={
                 <MainScreen
@@ -98,17 +98,17 @@ function App() {
                   handleLogout={handleLogout}
                 />
               }
-            ></Route>
-            <Route path="/movieList" element={<MovieListScreen handleLogout={handleLogout}/>} />
-            <Route path="/moviePage" element={<MoviePage handleLogout={handleLogout}/>} />
-            <Route path="/moviePost" element={<MoviePostScreen handleLogout={handleLogout}/>} />
-            <Route path="/profile" element={<ProfileScreen handleLogout={handleLogout}/>} />
-            <Route path="/recentLists" element={<ListScreen handleLogout={handleLogout}/>} />
-            <Route path="/movieReleases" element={<MovieReleasesScreen handleLogout={handleLogout}/>} />
-            <Route path="/recentPosts" element={<RecentPostsScreen handleLogout={handleLogout}/>} />
+            ></Route> */}
+            <Route path="/movieList" element={login? <MovieListScreen  handleLogout={handleLogout}/>:<Navigate to="/login"/>} />
+            <Route path="/moviePage" element={login? <MoviePage  handleLogout={handleLogout}/>:<Navigate to="/login"/>} />
+            <Route path="/moviePost" element={login? <MoviePostScreen  handleLogout={handleLogout}/>:<Navigate to="/login"/>} />
+            <Route path="/profile" element={login? <ProfileScreen  handleLogout={handleLogout}/>:<Navigate to="/login"/>} />
+            <Route path="/recentLists" element={login? <ListScreen  handleLogout={handleLogout}/>:<Navigate to="/login"/>} />
+            <Route path="/movieReleases" element={login? <MovieReleasesScreen  handleLogout={handleLogout}/>:<Navigate to="/login"/>} />
+            <Route path="/recentPosts" element={login? <RecentPostsScreen  handleLogout={handleLogout}/>:<Navigate to="/login"/>}/>
             <Route
               path="/createPost"
-              element={<CreatePost loginSession={login} onLogin={setLogin} handleLogout={handleLogout}/>}
+              element={login? <CreatePost loginSession={login} onLogin={setLogin}  handleLogout={handleLogout}/>:<Navigate to="/login"/>}
             />
           </Routes>
         </div>
