@@ -227,7 +227,7 @@ function MoviePage({handleLogout}) {
               <img
                 className="mb-2 posterMovie"
                 src={
-                  "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.hartz.com%2Fwp-content%2Fuploads%2F2022%2F04%2Fsmall-dog-owners-1.jpg&f=1&nofb=1&ipt=48d24e69f5f25c8f2c431ca7495446040c19430e0de3a573c869ef543ffe19ec&ipo=images"
+                  movies.poster??"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.hartz.com%2Fwp-content%2Fuploads%2F2022%2F04%2Fsmall-dog-owners-1.jpg&f=1&nofb=1&ipt=48d24e69f5f25c8f2c431ca7495446040c19430e0de3a573c869ef543ffe19ec&ipo=images"
                 }
                 alt="No"
               ></img>
@@ -242,7 +242,7 @@ function MoviePage({handleLogout}) {
               <iframe
                 width="560"
                 height="315"
-                src="https://www.youtube.com/embed/D_O2zAbZYeg?si=mXHE3N41U-GKuB2Q"
+                src={movies.trailer??"https://www.youtube.com/embed/D_O2zAbZYeg?si=mXHE3N41U-GKuB2Q"}
                 title="YouTube video player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
