@@ -231,7 +231,7 @@ function UpdatePost({ handleLogout }) {
 
   useEffect(() => {
     //creado para subir una imagen que se ligara al post
-    uploadImageAPI();
+    uploadImageAPI(post._id);
   }, [uploadedPost]);
 
   return (
@@ -251,7 +251,7 @@ function UpdatePost({ handleLogout }) {
                   alt="No"
                 ></img>
                 <div>
-                  <h4>Title</h4>
+                  <h4>{login.username ?? "Name"}</h4>
                 </div>
               </div>
             </Col>
