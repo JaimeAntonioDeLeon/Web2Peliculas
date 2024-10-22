@@ -14,8 +14,7 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-function MovieListScreen({handleLogout}) {
-
+function MovieListScreen({ handleLogout }) {
   const [searchParams, setSearchParams] = useSearchParams();
   // console.log(searchParams.get("movie"));
   const listKey = searchParams.get("list");
@@ -38,6 +37,27 @@ function MovieListScreen({handleLogout}) {
     }
   };
 
+  const RemoveMovieFromListAPI = async (movieId) => {
+    const response = await axios.post(
+      "http://localhost:8080/api/list/removeMovie",
+      {
+        id: new mongoose.Types.ObjectId(listKey),
+        movie: mongoose.Types.ObjectId(movieId),
+      }
+    );
+    console.log(response.data);
+    if (response.data) {
+      console.log("Pelicula removida!!");
+      console.log(response.data);
+      loadListAPI();
+      // setList(response.data);
+      // setLoading(false);
+      // console.log(response.data[0].image);
+      // setImage(response.data[1].image);
+    } else {
+    }
+  };
+
   useEffect(() => {
     loadListAPI();
   }, []);
@@ -48,8 +68,14 @@ function MovieListScreen({handleLogout}) {
       <Container className="container">
         <Row xs={12}>
           <Col xs={12} className="text-start mb-5">
-            <h2 className="listTitle">{list.title?? "LIST TITLE"}</h2>
-            <h4 className="listUser"> {list.user_id && (list.user_id? ("by " + list.user_id.username): "USERNAME")}  {!list.user_id && "by " + "USERNAME"}</h4>
+            <h2 className="listTitle">{list.title ?? "LIST TITLE"}</h2>
+            <h4 className="listUser">
+              {list.user_id &&
+                (list.user_id
+                  ? "by " + list.user_id.username
+                  : "USERNAME")}{" "}
+              {!list.user_id && "by " + "USERNAME"}
+            </h4>
           </Col>
           <Row xs={12} className="d-flex flex-row">
             <Col xs={3} className="mb-3">
@@ -78,13 +104,18 @@ function MovieListScreen({handleLogout}) {
             <Col xs={3} className="mb-3">
               <MovieIcon movie={{}} />
             </Col>
-            {list.movies && list.movies.map((movie) => {
-              return (
-                <Col xs={3} className="mb-3">
-                  <MovieIcon movie={movie} />
-                </Col>
-              );
-            })}
+            {list.movies &&
+              list.movies.map((movie) => {
+                return (
+                  <Col
+                    xs={3}
+                    className="mb-3"
+                    onClick={RemoveMovieFromListAPI(movie._id)}
+                  >
+                    <MovieIcon movie={movie} />
+                  </Col>
+                );
+              })}
           </Row>
         </Row>
       </Container>

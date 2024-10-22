@@ -59,7 +59,6 @@ function MainScreen({ loginSession, setLogin, handleLogout }) {
     }
   };
 
-
   useEffect(() => {
     console.log(localStorage.getItem("login"));
     if (localStorage.getItem("login")) {
@@ -134,14 +133,14 @@ function MainScreen({ loginSession, setLogin, handleLogout }) {
             {posts.map((post) => {
               return (
                 <Row>
-                  <MoviePost post={post}/>
+                  <MoviePost post={post} />
                 </Row>
               );
             })}
           </Row>
           <MoviePost post={{}} />
           <MoviePost post={{}} />
-          <MoviePost post={{}}/>
+          <MoviePost post={{}} />
           <div>
             You're gay
             <br />
@@ -149,7 +148,7 @@ function MainScreen({ loginSession, setLogin, handleLogout }) {
           </div>
         </div>
       </Container>
-      <BottomBar/>
+      <BottomBar />
     </Row>
   );
 }

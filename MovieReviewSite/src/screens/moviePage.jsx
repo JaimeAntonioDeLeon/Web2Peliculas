@@ -43,6 +43,7 @@ function MoviePage({ handleLogout }) {
   const [show, setShow] = useState(false);
 
   const listNameRef = useRef();
+  const listSelectedRef = useRef();
 
   const loadMoviesAPI = async () => {
     const response = await axios.post("http://localhost:8080/api/movie/post", {
@@ -77,9 +78,13 @@ function MoviePage({ handleLogout }) {
   };
 
   const listsUserAPI = async () => {
-    const response = await axios.post("http://localhost:8080/api/list/user", {
-      id: new mongoose.Types.ObjectId(login._id),
-    });
+    const response = await axios.post(
+      "http://localhost:8080/api/list/userUnique",
+      {
+        id: new mongoose.Types.ObjectId(login._id),
+        movie: movieKey,
+      }
+    );
     console.log(response.data);
     if (response.data) {
       console.log("listas encontradas!");
@@ -115,6 +120,27 @@ function MoviePage({ handleLogout }) {
     } catch (e) {
       console.log(e);
       //setWrongRegister(true);
+    }
+  };
+
+  const AddMovieToListAPI = async (listId) => {
+    const response = await axios.post(
+      "http://localhost:8080/api/list/addMovie",
+      {
+        id: new mongoose.Types.ObjectId(listId),
+        movie: mongoose.Types.ObjectId(movieKey),
+      }
+    );
+    console.log(response.data);
+    if (response.data) {
+      console.log("Pelicula agregada a lista!");
+      console.log(response.data);
+      handleClose();
+      // setList(response.data);
+      // setLoading(false);
+      // console.log(response.data[0].image);
+      // setImage(response.data[1].image);
+    } else {
     }
   };
 
@@ -371,6 +397,7 @@ function MoviePage({ handleLogout }) {
                 <Form.Select
                   aria-label="Default select example"
                   className="mb-4 listSelect"
+                  ref={listSelectedRef}
                 >
                   <option>Open this select menu</option>
                   <option value="1">One</option>
@@ -384,7 +411,10 @@ function MoviePage({ handleLogout }) {
                 <Row>
                   <Button
                     variant="primary"
-                    onClick={handleClose}
+                    // onClick={handleClose}
+                    onClick={() => {
+                      AddMovieToListAPI(listSelectedRef.current.value);
+                    }}
                     className="w-50 listSelect"
                     disabled={userLists.length <= 0}
                   >

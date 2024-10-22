@@ -2,7 +2,16 @@ import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import "../componentStyle/login.css";
 import { useNavigate, Link } from "react-router-dom";
-import { Row, Col, Container, FloatingLabel, Form } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Container,
+  FloatingLabel,
+  Form,
+  ToastContainer,
+} from "react-bootstrap";
+import Toast from "react-bootstrap/Toast";
+import Button from "react-bootstrap/Button";
 function Login({ loginSession, onLogin }) {
   const navigate = useNavigate();
   //const [password, setPassword] = useState('');
@@ -13,6 +22,8 @@ function Login({ loginSession, onLogin }) {
   const [login, setLogin] = useState();
   const [wrongLogin, setWrongLogin] = useState(false);
   const [faltanDatos, setFaltanDatos] = useState(false);
+
+  const [show, setShow] = useState(false); //para toast
 
   const submitHandler = (e) => {
     console.log("subido!");
@@ -91,6 +102,27 @@ function Login({ loginSession, onLogin }) {
           </div>
         </Col>
       </Row>
+      <ToastContainer
+        className="p-3"
+        position={"bottom-end"}
+        style={{ zIndex: 1 }}
+      >
+        <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
+          <Toast.Header style={{ backgroundColor: "red" }}>
+            <img
+              src="holder.js/10x10?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+          </Toast.Header>
+          <Toast.Body style={{ backgroundColor: "red" }}>
+            Woohoo, you're reading this text in a Toast!
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
+      <Button onClick={() => setShow(true)}>Show Toast</Button>
     </div>
   );
 }

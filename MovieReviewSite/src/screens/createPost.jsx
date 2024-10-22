@@ -2,7 +2,15 @@ import { React, useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
 import TopBar from "../component/topBar";
 import BottomBar from "../component/bottomBar";
-import { Row, Col, Container, FloatingLabel, Form, Alert, Toast } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Container,
+  FloatingLabel,
+  Form,
+  Alert,
+  Toast,
+} from "react-bootstrap";
 import "../ScreensStyle/createPost.css";
 
 import axios from "axios";
@@ -15,7 +23,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
-function CreatePost({loginSession, onLogin, handleLogout}) {
+function CreatePost({ loginSession, onLogin, handleLogout }) {
   const [searchParams, setSearchParams] = useSearchParams();
   // console.log(searchParams.get("movie"));
   const movieKey = searchParams.get("movie");
@@ -25,6 +33,10 @@ function CreatePost({loginSession, onLogin, handleLogout}) {
   const [image, setImage] = useState(null);
   const [movies, setMovies] = useState({});
   const [savedImage, setSavedImage] = useState(null);
+
+  const [show, setShow] = useState(false); //para toast
+  const [showError, setShowError] = useState(false); //para toast
+
   const titleRef = useRef();
   const bodyRef = useRef();
   const imageRef = useRef();
@@ -83,26 +95,10 @@ function CreatePost({loginSession, onLogin, handleLogout}) {
         console.log("Ha fallado");
       }
       console.log(response.data);
-      <Alert variant="success">Subida exitosa!</Alert>
-      return(
-      <Toast bg="Success">
-         <Toast.Header>
-            <img
-              src="holder.js/20x20?text=%20"
-              className="rounded me-2"
-              alt=""
-            />
-            <strong className="me-auto">Post exitoso!</strong>
-            <small>Ahora</small>
-          </Toast.Header>
-          <Toast.Body className={variant === 'Dark' && 'text-white'}>
-            Su post ahora es visible publicamente. 
-          </Toast.Body>
-      </Toast>
-      )
+      <Alert variant="success">Subida exitosa!</Alert>;
     } catch (e) {
       console.log(e);
-      <Alert variant="danger">Subida fallida!</Alert>
+      <Alert variant="danger">Subida fallida!</Alert>;
       //setWrongRegister(true);
     }
   };
@@ -180,7 +176,7 @@ function CreatePost({loginSession, onLogin, handleLogout}) {
       <Container className="container pb-4">
         <Row xs={12}>
           <Col xs={4}>
-            <h2>{"Topic: " + movies.title??  "MOVIE NAME"}</h2>
+            <h2>{"Topic: " + movies.title ?? "MOVIE NAME"}</h2>
           </Col>
           <Row xs={12} className="d-flex flex-row">
             <Col xs={{ span: 2 }} className="mb-3">
@@ -237,6 +233,52 @@ function CreatePost({loginSession, onLogin, handleLogout}) {
         </Row>
       </Container>
       <BottomBar />
+      <ToastContainer
+        className="p-3"
+        position={"bottom-end"}
+        style={{ zIndex: 1 }}
+      >
+        <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
+          <Toast.Header style={{ backgroundColor: "green" }}>
+            <img
+              src="holder.js/10x10?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+          </Toast.Header>
+          <Toast.Body style={{ backgroundColor: "green" }}>
+            Woohoo, you're reading this text in a Toast!
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
+
+      <ToastContainer
+        className="p-3"
+        position={"bottom-end"}
+        style={{ zIndex: 1 }}
+      >
+        <Toast
+          onClose={() => setShow(false)}
+          show={showError}
+          delay={3000}
+          autohide
+        >
+          <Toast.Header style={{ backgroundColor: "red" }}>
+            <img
+              src="holder.js/10x10?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+          </Toast.Header>
+          <Toast.Body style={{ backgroundColor: "red" }}>
+            Woohoo, you're reading this text in a Toast!
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
     </div>
   );
 }

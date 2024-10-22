@@ -2,7 +2,7 @@ import { React, useState, useRef, useEffect } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../componentStyle/movieIcon.css";
-function MovieIcon({ movie }) {
+function MovieIcon({ movie, eliminationMode = false }) {
   useEffect(() => {
     console.log(movie.title);
   }, []);
@@ -13,7 +13,7 @@ function MovieIcon({ movie }) {
         className="mb-2"
         style={{ width: 100, height: 150 }}
         onClick={() => {
-          navigate(`/moviePage?movie=${movie._id}`);
+          if (!eliminationMode) navigate(`/moviePage?movie=${movie._id}`);
         }}
         src={
           movie.poster ??
