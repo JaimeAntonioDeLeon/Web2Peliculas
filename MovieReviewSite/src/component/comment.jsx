@@ -5,6 +5,7 @@ import axios from "axios";
 import mongoose from "mongoose";
 
 function Comment({ comment }) {
+  const [exists, setExists] = useState(true);
   const [comments, setComments] = useState([]);
   const [login, setLogin] = useState({});
   const [updateMode, setUpdateMode] = useState(false);
@@ -36,10 +37,11 @@ function Comment({ comment }) {
 
   const updateCommentAPI = async () => {
     try {
+      console.log("updating comment "  + commentBody)
       const response = await axios.post(
         "http://localhost:8080/api/comments/update",
         {
-          _id: comment._id,
+          id: comment._id,
           body: commentBody,
         }
       );
@@ -49,6 +51,7 @@ function Comment({ comment }) {
         console.log("no funciono");
       }
       console.log(response.data);
+      console.log("commment update!");
       loadCommentAPI();
     } catch (e) {
       console.log(e);
@@ -57,7 +60,7 @@ function Comment({ comment }) {
 
   const deleteCommentAPI = async () => {
     const response = await axios.post(
-      "http://localhost:8080/api/posts/delete",
+      "http://localhost:8080/api/comments/delete",
       {
         _id: comment._id,
       }
@@ -66,6 +69,7 @@ function Comment({ comment }) {
     if (response.data) {
       console.log("comentario eliminado!");
       console.log(response.data);
+      setExists(false);
       // console.log(response.data[0].image);
       // setImage(response.data[1].image);
     } else {
@@ -92,6 +96,7 @@ function Comment({ comment }) {
     } else {
       //setFaltanDatos(false);
       updateCommentAPI();
+      setUpdateMode(false);
     }
   };
 
@@ -105,7 +110,9 @@ function Comment({ comment }) {
     }
   }, []);
 
-  return (
+  return ( 
+  <>
+    {exists && (
     <Row xs={10} className="comment ms-3 me-3 mb-3 pb-3 pt-3">
       <Col xs={{ span: 1 }}>
         <img
@@ -119,7 +126,7 @@ function Comment({ comment }) {
           {comments.user_id && comments.user_id.username}{" "}
           {!comments.user_id && "Username"}
         </Row>
-        {!updateMode && <Row>{comment.body}</Row>}
+        {!updateMode && <Row>{comments.body}</Row>}
         {updateMode && (
           <Row>
             <form onSubmit={submitHandler}>
@@ -151,7 +158,7 @@ function Comment({ comment }) {
           )}
           <button
             onClick={() => {
-              eliminate;
+              eliminate();
             }}
           >
             delete
@@ -159,6 +166,8 @@ function Comment({ comment }) {
         </Col>
       )}
     </Row>
+    )}
+    </>
   );
 }
 export default Comment;

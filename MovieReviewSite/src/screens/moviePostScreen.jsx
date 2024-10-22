@@ -17,12 +17,13 @@ import {
 
 function MoviePostScreen({ handleLogout }) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   // console.log(searchParams.get("movie"));
   const postKey = searchParams.get("post");
   console.log("This post is: " + postKey);
 
   const bodyRef = useRef();
-  const [login, setLogin] = useState();
+  const [login, setLogin] = useState({});
   const [post, setPost] = useState({});
   const [comments, setComments] = useState([]);
 
@@ -67,12 +68,12 @@ function MoviePostScreen({ handleLogout }) {
       //setArray(response.data.fruits);
       //setArray(response.data);
       if (response.data) {
+        loadCommentAPI();
         //navigate('/');
       } else {
         console.log("no funciono");
       }
-      console.log(response.data);
-      loadCommentAPI();
+      // console.log(response.data);
     } catch (e) {
       console.log(e);
       //setWrongRegister(true);
@@ -88,9 +89,9 @@ function MoviePostScreen({ handleLogout }) {
     );
     console.log(response.data);
     if (response.data) {
-      console.log("encontrado!");
+      // console.log("encontrado!");
       // console.log(response.data[0].image);
-      console.log(response.data);
+      // console.log(response.data);
       setComments(response.data);
     } else {
       //setWrongLogin(true);
@@ -184,7 +185,7 @@ function MoviePostScreen({ handleLogout }) {
               <Col xs={10} className="text-start">
                 <Row className="mb-4">
                   <h2>{post.title ?? "Post Title"}</h2>
-                  {login._id == post.user_id && (
+                  {post.user_id && login._id == post.user_id._id && (
                     <div>
                       <button
                         onClick={() => {
