@@ -23,7 +23,7 @@ const getPostSelected = async (req, res)=>{
 const getPostsMovie = async (req, res)=>{
     try{
         const {movie_id} = req.body;
-        const lists = await Post.find({movie_id:movie_id});
+        const lists = await Post.find({movie_id:movie_id}).populate('user_id');
         res.json(lists);
     }
     catch(error){
@@ -71,7 +71,7 @@ const getPostSearch = async (req, res)=>{
     try{
         const {title} = req.body;
         const tit = new String(title);
-        const comment = await Post.find({ 'title' : { '$regex' : tit, '$options' : 'i' } });
+        const comment = await Post.find({ 'title' : { '$regex' : tit, '$options' : 'i' } }).populate('user_id');
         res.status(200).json(comment);
     }catch(error){
         res.status(500).json({message: error.message});

@@ -50,7 +50,7 @@ function ProfileScreen({handleLogout}) {
         <img
           className="ms-auto me-auto profile-picture"
           style={{ width: 200, height: 200 }}
-          src="https://static.vecteezy.com/system/resources/previews/000/574/215/non_2x/vector-sign-of-user-icon.jpg"
+          src={(login && login.image)? login.image:"https://static.vecteezy.com/system/resources/previews/000/574/215/non_2x/vector-sign-of-user-icon.jpg"}
           alt="No"
         ></img>
       </Row>

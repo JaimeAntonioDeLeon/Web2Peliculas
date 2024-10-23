@@ -128,7 +128,7 @@ function MoviePage({ handleLogout }) {
       "http://localhost:8080/api/list/addMovie",
       {
         id: new mongoose.Types.ObjectId(listId),
-        movie: mongoose.Types.ObjectId(movieKey),
+        movie: new mongoose.Types.ObjectId(movieKey),
       }
     );
     console.log(response.data);

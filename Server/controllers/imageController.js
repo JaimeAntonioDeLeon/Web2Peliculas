@@ -12,8 +12,8 @@ const getImages = async (req, res)=>{
 
 const getPostImages = async (req, res)=>{
     try{
-        //const {id} = req.params;
-        const images = await Image.findOne(req.body);
+        const {id} = req.body;
+        const images = await Image.findOne({post_id:id});
         res.status(200).json(images);
     }catch(error){
         res.status(500).json({message: error.message});

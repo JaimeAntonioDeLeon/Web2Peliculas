@@ -25,6 +25,7 @@ function MoviePostScreen({ handleLogout }) {
   const bodyRef = useRef();
   const [login, setLogin] = useState({});
   const [post, setPost] = useState({});
+  const [image, setImage] = useState({});
   const [comments, setComments] = useState([]);
 
   const submitHandler = (e) => {
@@ -48,6 +49,23 @@ function MoviePostScreen({ handleLogout }) {
       console.log("post encontrado!");
       // console.log(response.data);
       setPost(response.data);
+      loadImageAPI();
+      // setLoading(false);
+      // console.log(response.data[0].image);
+      // setImage(response.data[1].image);
+    } else {
+    }
+  };
+
+  const loadImageAPI = async () => {
+    const response = await axios.post("http://localhost:8080/api/image/post", {
+      id: new mongoose.Types.ObjectId(postKey),
+    });
+    console.log(response.data);
+    if (response.data) {
+      console.log("imagen encontrado!");
+      console.log(response.data);
+      setImage(response.data.image);
       // setLoading(false);
       // console.log(response.data[0].image);
       // setImage(response.data[1].image);
@@ -175,7 +193,7 @@ function MoviePostScreen({ handleLogout }) {
                 <img
                   className="userImage"
                   style={{ width: 100, lenght: 100 }}
-                  src="https://static.vecteezy.com/system/resources/previews/000/574/215/non_2x/vector-sign-of-user-icon.jpg"
+                  src={(post.user_id && post.user_id.image)? post.user_id.image:"https://static.vecteezy.com/system/resources/previews/000/574/215/non_2x/vector-sign-of-user-icon.jpg"}
                 ></img>
                 <h5>
                   {post.user_id && post.user_id.username}
@@ -217,6 +235,7 @@ function MoviePostScreen({ handleLogout }) {
         <Row>
           <h4>Images</h4>
         </Row>
+        <Row><img src={image} alt="Image of post"></img></Row>
       </Container>
 
       <Container className="container pb-3">

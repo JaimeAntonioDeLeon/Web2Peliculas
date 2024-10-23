@@ -251,7 +251,7 @@ function UpdatePost({ handleLogout }) {
                   alt="No"
                 ></img>
                 <div>
-                  <h4>{login.username ?? "Name"}</h4>
+                  <h4>{(login && login.username)? login.username: "Name"}</h4>
                 </div>
               </div>
             </Col>

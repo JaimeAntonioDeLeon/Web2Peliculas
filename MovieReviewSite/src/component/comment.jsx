@@ -117,7 +117,7 @@ function Comment({ comment }) {
       <Col xs={{ span: 1 }}>
         <img
           style={{ width: 100, lenght: 100 }}
-          src="https://static.vecteezy.com/system/resources/previews/000/574/215/non_2x/vector-sign-of-user-icon.jpg"
+          src={(comments.user_id && comments.user_id.image)?comments.user_id.image:"https://static.vecteezy.com/system/resources/previews/000/574/215/non_2x/vector-sign-of-user-icon.jpg"}
           alt="user"
         />
       </Col>
