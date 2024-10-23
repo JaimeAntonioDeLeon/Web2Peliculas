@@ -20,6 +20,7 @@ function MovieListScreen({ handleLogout }) {
   const listKey = searchParams.get("list");
 
   const [list, setList] = useState({});
+  const [deleteMode, setDeleteMode] = useState(false);
 
   const loadListAPI = async () => {
     const response = await axios.post("http://localhost:8080/api/list/get", {
@@ -42,7 +43,7 @@ function MovieListScreen({ handleLogout }) {
       "http://localhost:8080/api/list/removeMovie",
       {
         id: new mongoose.Types.ObjectId(listKey),
-        movie: mongoose.Types.ObjectId(movieId),
+        movie: new mongoose.Types.ObjectId(movieId),
       }
     );
     console.log(response.data);
@@ -57,6 +58,14 @@ function MovieListScreen({ handleLogout }) {
     } else {
     }
   };
+  const handleOptionChange = changeEvent => {
+    if(changeEvent.target.value == "true")
+    setDeleteMode(true);
+  else
+  setDeleteMode(false)
+  };
+  
+  
 
   useEffect(() => {
     loadListAPI();
@@ -67,7 +76,7 @@ function MovieListScreen({ handleLogout }) {
       <TopBar handleLogout={handleLogout} />
       <Container className="container">
         <Row xs={12}>
-          <Col xs={12} className="text-start mb-5">
+          <Col xs={8} className="text-start mb-5">
             <h2 className="listTitle">{list.title ?? "LIST TITLE"}</h2>
             <h4 className="listUser">
               {list.user_id &&
@@ -77,6 +86,13 @@ function MovieListScreen({ handleLogout }) {
               {!list.user_id && "by " + "USERNAME"}
             </h4>
           </Col>
+          {(<Col xs={4}>
+          <span>{"Mode: "}</span>
+          <input type="radio" name="listMode" id="radioView" value={false}  checked={!deleteMode}onChange={handleOptionChange}/>
+          <label for="radioView" className="me-2">View</label>
+          <input type="radio" name="listMode" id="radioDelete" value={true} checked={deleteMode} onChange={handleOptionChange}/>
+          <label for="radioDelete">Delete</label>
+          </Col>)}
           <Row xs={12} className="d-flex flex-row">
             <Col xs={3} className="mb-3">
               <MovieIcon movie={{}} />
@@ -110,9 +126,11 @@ function MovieListScreen({ handleLogout }) {
                   <Col
                     xs={3}
                     className="mb-3"
-                    onClick={RemoveMovieFromListAPI(movie._id)}
+                    onClick={()=>{
+                      if (deleteMode) RemoveMovieFromListAPI(movie._id)
+                    } }
                   >
-                    <MovieIcon movie={movie} />
+                    <MovieIcon movie={movie} eliminationMode={deleteMode}/>
                   </Col>
                 );
               })}
