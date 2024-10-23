@@ -184,7 +184,11 @@ function CreatePost({ loginSession, onLogin, handleLogout }) {
               <div>
                 <img
                   className="mb-2 profilePicture"
-                  src={(login && login.image)? login.image:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.hartz.com%2Fwp-content%2Fuploads%2F2022%2F04%2Fsmall-dog-owners-1.jpg&f=1&nofb=1&ipt=48d24e69f5f25c8f2c431ca7495446040c19430e0de3a573c869ef543ffe19ec&ipo=images"}
+                  src={
+                    login && login.image
+                      ? login.image
+                      : "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.hartz.com%2Fwp-content%2Fuploads%2F2022%2F04%2Fsmall-dog-owners-1.jpg&f=1&nofb=1&ipt=48d24e69f5f25c8f2c431ca7495446040c19430e0de3a573c869ef543ffe19ec&ipo=images"
+                  }
                   alt="No"
                 ></img>
                 <div>
@@ -250,7 +254,7 @@ function CreatePost({ loginSession, onLogin, handleLogout }) {
             <small>11 mins ago</small>
           </Toast.Header>
           <Toast.Body style={{ backgroundColor: "green" }}>
-            Woohoo, you're reading this text in a Toast!
+            Post creado!
           </Toast.Body>
         </Toast>
       </ToastContainer>
@@ -261,7 +265,7 @@ function CreatePost({ loginSession, onLogin, handleLogout }) {
         style={{ zIndex: 1 }}
       >
         <Toast
-          onClose={() => setShow(false)}
+          onClose={() => setShowError(false)}
           show={showError}
           delay={3000}
           autohide
@@ -272,11 +276,11 @@ function CreatePost({ loginSession, onLogin, handleLogout }) {
               className="rounded me-2"
               alt=""
             />
-            <strong className="me-auto">Bootstrap</strong>
+            <strong className="me-auto">Error!</strong>
             <small>11 mins ago</small>
           </Toast.Header>
           <Toast.Body style={{ backgroundColor: "red" }}>
-            Woohoo, you're reading this text in a Toast!
+            Error al crear post!
           </Toast.Body>
         </Toast>
       </ToastContainer>

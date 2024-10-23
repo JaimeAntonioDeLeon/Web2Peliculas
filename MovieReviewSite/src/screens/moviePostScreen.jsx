@@ -193,7 +193,11 @@ function MoviePostScreen({ handleLogout }) {
                 <img
                   className="userImage"
                   style={{ width: 100, lenght: 100 }}
-                  src={(post.user_id && post.user_id.image)? post.user_id.image:"https://static.vecteezy.com/system/resources/previews/000/574/215/non_2x/vector-sign-of-user-icon.jpg"}
+                  src={
+                    post.user_id && post.user_id.image
+                      ? post.user_id.image
+                      : "https://static.vecteezy.com/system/resources/previews/000/574/215/non_2x/vector-sign-of-user-icon.jpg"
+                  }
                 ></img>
                 <h5>
                   {post.user_id && post.user_id.username}
@@ -235,7 +239,9 @@ function MoviePostScreen({ handleLogout }) {
         <Row>
           <h4>Images</h4>
         </Row>
-        <Row><img src={image} alt="Image of post"></img></Row>
+        <Row>
+          <img src={image} alt="Image of post"></img>
+        </Row>
       </Container>
 
       <Container className="container pb-3">
@@ -271,6 +277,32 @@ function MoviePostScreen({ handleLogout }) {
         })}
       </Container>
       <BottomBar />
+
+      <ToastContainer
+        className="p-3"
+        position={"bottom-end"}
+        style={{ zIndex: 1 }}
+      >
+        <Toast
+          onClose={() => setShowError(false)}
+          show={showError}
+          delay={3000}
+          autohide
+        >
+          <Toast.Header style={{ backgroundColor: "red" }}>
+            <img
+              src="holder.js/10x10?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">Error</strong>
+            <small>11 mins ago</small>
+          </Toast.Header>
+          <Toast.Body style={{ backgroundColor: "red" }}>
+            Error al crear comentario
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
     </div>
   );
 }

@@ -58,14 +58,10 @@ function MovieListScreen({ handleLogout }) {
     } else {
     }
   };
-  const handleOptionChange = changeEvent => {
-    if(changeEvent.target.value == "true")
-    setDeleteMode(true);
-  else
-  setDeleteMode(false)
+  const handleOptionChange = (changeEvent) => {
+    if (changeEvent.target.value == "true") setDeleteMode(true);
+    else setDeleteMode(false);
   };
-  
-  
 
   useEffect(() => {
     loadListAPI();
@@ -86,13 +82,31 @@ function MovieListScreen({ handleLogout }) {
               {!list.user_id && "by " + "USERNAME"}
             </h4>
           </Col>
-          {(<Col xs={4}>
-          <span>{"Mode: "}</span>
-          <input type="radio" name="listMode" id="radioView" value={false}  checked={!deleteMode}onChange={handleOptionChange}/>
-          <label for="radioView" className="me-2">View</label>
-          <input type="radio" name="listMode" id="radioDelete" value={true} checked={deleteMode} onChange={handleOptionChange}/>
-          <label for="radioDelete">Delete</label>
-          </Col>)}
+          {
+            <Col xs={4}>
+              <span>{"Mode: "}</span>
+              <input
+                type="radio"
+                name="listMode"
+                id="radioView"
+                value={false}
+                checked={!deleteMode}
+                onChange={handleOptionChange}
+              />
+              <label for="radioView" className="me-2">
+                View
+              </label>
+              <input
+                type="radio"
+                name="listMode"
+                id="radioDelete"
+                value={true}
+                checked={deleteMode}
+                onChange={handleOptionChange}
+              />
+              <label for="radioDelete">Delete</label>
+            </Col>
+          }
           <Row xs={12} className="d-flex flex-row">
             <Col xs={3} className="mb-3">
               <MovieIcon movie={{}} />
@@ -126,11 +140,11 @@ function MovieListScreen({ handleLogout }) {
                   <Col
                     xs={3}
                     className="mb-3"
-                    onClick={()=>{
-                      if (deleteMode) RemoveMovieFromListAPI(movie._id)
-                    } }
+                    onClick={() => {
+                      if (deleteMode) RemoveMovieFromListAPI(movie._id);
+                    }}
                   >
-                    <MovieIcon movie={movie} eliminationMode={deleteMode}/>
+                    <MovieIcon movie={movie} eliminationMode={deleteMode} />
                   </Col>
                 );
               })}
@@ -138,6 +152,31 @@ function MovieListScreen({ handleLogout }) {
         </Row>
       </Container>
       <BottomBar />
+      <ToastContainer
+        className="p-3"
+        position={"bottom-end"}
+        style={{ zIndex: 1 }}
+      >
+        <Toast
+          onClose={() => setShowError(false)}
+          show={showError}
+          delay={3000}
+          autohide
+        >
+          <Toast.Header style={{ backgroundColor: "red" }}>
+            <img
+              src="holder.js/10x10?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">Error!</strong>
+            <small>11 mins ago</small>
+          </Toast.Header>
+          <Toast.Body style={{ backgroundColor: "red" }}>
+            Error: la lista no se pudo eliminar!
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
     </div>
   );
 }
