@@ -126,6 +126,31 @@ function Register() {
           </Link>
         </div>
       </div>
+      <ToastContainer
+        className="p-3"
+        position={"bottom-end"}
+        style={{ zIndex: 1 }}
+      >
+        <Toast
+          onClose={() => setShowError(false)}
+          show={showError}
+          delay={3000}
+          autohide
+        >
+          <Toast.Header style={{ backgroundColor: "red" }}>
+            <img
+              src="holder.js/10x10?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+          </Toast.Header>
+          <Toast.Body style={{ backgroundColor: "red" }}>
+            Registro fallado!
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
     </div>
   );
 }

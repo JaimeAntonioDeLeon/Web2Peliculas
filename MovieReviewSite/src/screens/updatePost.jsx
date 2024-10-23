@@ -251,7 +251,7 @@ function UpdatePost({ handleLogout }) {
                   alt="No"
                 ></img>
                 <div>
-                  <h4>{(login && login.username)? login.username: "Name"}</h4>
+                  <h4>{login && login.username ? login.username : "Name"}</h4>
                 </div>
               </div>
             </Col>
@@ -297,6 +297,31 @@ function UpdatePost({ handleLogout }) {
         </Row>
       </Container>
       <BottomBar />
+      <ToastContainer
+        className="p-3"
+        position={"bottom-end"}
+        style={{ zIndex: 1 }}
+      >
+        <Toast
+          onClose={() => setShowError(false)}
+          show={showError}
+          delay={3000}
+          autohide
+        >
+          <Toast.Header style={{ backgroundColor: "red" }}>
+            <img
+              src="holder.js/10x10?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+          </Toast.Header>
+          <Toast.Body style={{ backgroundColor: "red" }}>
+            Actualizacion fallida!
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
     </div>
   );
 }
