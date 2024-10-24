@@ -2,7 +2,7 @@ import { React, useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
 import TopBar from "../component/topBar";
 import BottomBar from "../component/bottomBar";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col, Container, Toast, ToastContainer } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -41,6 +41,7 @@ function MoviePage({ handleLogout }) {
   const [userLists, setUserLists] = useState([]);
 
   const [show, setShow] = useState(false);
+  const [showError, setShowError] = useState(false); //para toast
 
   const listNameRef = useRef();
   const listSelectedRef = useRef();
@@ -124,23 +125,29 @@ function MoviePage({ handleLogout }) {
   };
 
   const AddMovieToListAPI = async (listId) => {
-    const response = await axios.post(
-      "http://localhost:8080/api/list/addMovie",
-      {
-        id: new mongoose.Types.ObjectId(listId),
-        movie: new mongoose.Types.ObjectId(movieKey),
-      }
-    );
-    console.log(response.data);
-    if (response.data) {
-      console.log("Pelicula agregada a lista!");
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/list/addMovie",
+        {
+          id: new mongoose.Types.ObjectId(listId),
+          movie: new mongoose.Types.ObjectId(movieKey),
+        }
+      );
       console.log(response.data);
-      handleClose();
-      // setList(response.data);
-      // setLoading(false);
-      // console.log(response.data[0].image);
-      // setImage(response.data[1].image);
-    } else {
+      if (response.data) {
+        console.log("Pelicula agregada a lista!");
+        console.log(response.data);
+        setShow(true);
+        handleClose();
+        // setList(response.data);
+        // setLoading(false);
+        // console.log(response.data[0].image);
+        // setImage(response.data[1].image);
+      } else {
+      }
+    } catch (e) {
+      setShowError(true);
+      console.log(e);
     }
   };
 
@@ -450,10 +457,35 @@ function MoviePage({ handleLogout }) {
               alt=""
             />
             <strong className="me-auto">Error!</strong>
-            <small>11 mins ago</small>
           </Toast.Header>
           <Toast.Body style={{ backgroundColor: "red" }}>
             No se pudo agregar lista!
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
+
+      <ToastContainer
+        className="p-3"
+        position={"bottom-end"}
+        style={{ zIndex: 1 }}
+      >
+        <Toast
+          onClose={() => setShow(false)}
+          bg="success"
+          show={show}
+          delay={3000}
+          autohide
+        >
+          <Toast.Header style={{ backgroundColor: "green" }}>
+            <img
+              src="holder.js/10x10?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">Hecho!</strong>
+          </Toast.Header>
+          <Toast.Body style={{ backgroundColor: "green" }}>
+            Agregado a lista!
           </Toast.Body>
         </Toast>
       </ToastContainer>

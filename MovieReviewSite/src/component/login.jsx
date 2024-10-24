@@ -8,9 +8,9 @@ import {
   Container,
   FloatingLabel,
   Form,
+  Toast,
   ToastContainer,
 } from "react-bootstrap";
-import Toast from "react-bootstrap/Toast";
 import Button from "react-bootstrap/Button";
 function Login({ loginSession, onLogin }) {
   const navigate = useNavigate();
@@ -24,6 +24,7 @@ function Login({ loginSession, onLogin }) {
   const [faltanDatos, setFaltanDatos] = useState(false);
 
   const [show, setShow] = useState(false); //para toast
+  const [showError, setShowError] = useState(false); //para toast
 
   const submitHandler = (e) => {
     console.log("subido!");
@@ -50,6 +51,7 @@ function Login({ loginSession, onLogin }) {
     console.log(response.data);
     if (response.data) {
       console.log("encontrado!");
+      setShow(true);
       onLogin(response.data);
       setLogin(response.data);
     } else {
@@ -92,7 +94,9 @@ function Login({ loginSession, onLogin }) {
                 {faltanDatos && (
                   <p className="errorText">Falta llenar campos!</p>
                 )}
-                <button type="submit">Iniciar Sesion</button>
+                <button type="submit" className="buttonLogin">
+                  Iniciar Sesion
+                </button>
               </form>
               {/* <p>Submit Value:<b>{password}</b> <b>{email}</b></p> */}
               <Link id="registerLink" to="/register">
@@ -107,18 +111,23 @@ function Login({ loginSession, onLogin }) {
         position={"bottom-end"}
         style={{ zIndex: 1 }}
       >
-        <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
-          <Toast.Header style={{ backgroundColor: "red" }}>
+        <Toast
+          onClose={() => setShow(false)}
+          bg="success"
+          show={show}
+          delay={3000}
+          autohide
+        >
+          <Toast.Header style={{ backgroundColor: "green" }}>
             <img
               src="holder.js/10x10?text=%20"
               className="rounded me-2"
               alt=""
             />
-            <strong className="me-auto">Bootstrap</strong>
-            <small>11 mins ago</small>
+            <strong className="me-auto">Welcome!</strong>
           </Toast.Header>
-          <Toast.Body style={{ backgroundColor: "red" }}>
-            Woohoo, you're reading this text in a Toast!
+          <Toast.Body style={{ backgroundColor: "green" }}>
+            Logged in!
           </Toast.Body>
         </Toast>
       </ToastContainer>

@@ -4,6 +4,16 @@ import "../componentStyle/register.css";
 
 import { Navigate, useNavigate, Link } from "react-router-dom";
 
+import {
+  Row,
+  Col,
+  Container,
+  FloatingLabel,
+  Form,
+  Toast,
+  ToastContainer,
+} from "react-bootstrap";
+
 const fetchAPI = async () => {
   const response = await axios.get("http://localhost:8080/api");
   //setArray(response.data.fruits);
@@ -30,6 +40,9 @@ function Register() {
 
   const [savedImage, setSavedImage] = useState(null);
   const [image, setImage] = useState(null);
+
+  const [show, setShow] = useState(false); //para toast
+  const [showError, setShowError] = useState(false); //para toast
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -79,6 +92,7 @@ function Register() {
       //setArray(response.data.fruits);
       //setArray(response.data);
       if (response.data) {
+        setShow(true);
         navigate("/");
       } else {
         console.log("no hay respuesta");
@@ -135,6 +149,7 @@ function Register() {
           onClose={() => setShowError(false)}
           show={showError}
           delay={3000}
+          bg="danger"
           autohide
         >
           <Toast.Header style={{ backgroundColor: "red" }}>
@@ -143,11 +158,36 @@ function Register() {
               className="rounded me-2"
               alt=""
             />
-            <strong className="me-auto">Bootstrap</strong>
-            <small>11 mins ago</small>
+            <strong className="me-auto">Error!</strong>
           </Toast.Header>
           <Toast.Body style={{ backgroundColor: "red" }}>
             Registro fallado!
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
+
+      <ToastContainer
+        className="p-3"
+        position={"bottom-end"}
+        style={{ zIndex: 1 }}
+      >
+        <Toast
+          onClose={() => setShow(false)}
+          bg="success"
+          show={show}
+          delay={3000}
+          autohide
+        >
+          <Toast.Header style={{ backgroundColor: "green" }}>
+            <img
+              src="holder.js/10x10?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">Welcome!</strong>
+          </Toast.Header>
+          <Toast.Body style={{ backgroundColor: "green" }}>
+            Logged in!
           </Toast.Body>
         </Toast>
       </ToastContainer>
