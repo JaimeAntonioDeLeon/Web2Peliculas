@@ -91,15 +91,17 @@ function CreatePost({ loginSession, onLogin, handleLogout }) {
           console.log("Hay archivos");
           uploadImageAPI(response.data._id);
         }
+        setShow(true);
         //navigate('/');
       } else {
         console.log("Ha fallado");
       }
       console.log(response.data);
-      <Alert variant="success">Subida exitosa!</Alert>;
+      // <Alert variant="success">Subida exitosa!</Alert>;
     } catch (e) {
+      setShowError(true);
       console.log(e);
-      <Alert variant="danger">Subida fallida!</Alert>;
+      // <Alert variant="danger">Subida fallida!</Alert>;
       //setWrongRegister(true);
     }
   };
@@ -243,15 +245,20 @@ function CreatePost({ loginSession, onLogin, handleLogout }) {
         position={"bottom-end"}
         style={{ zIndex: 1 }}
       >
-        <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
+        <Toast
+          onClose={() => setShow(false)}
+          bg="success"
+          show={show}
+          delay={3000}
+          autohide
+        >
           <Toast.Header style={{ backgroundColor: "green" }}>
             <img
               src="holder.js/10x10?text=%20"
               className="rounded me-2"
               alt=""
             />
-            <strong className="me-auto">Bootstrap</strong>
-            <small>11 mins ago</small>
+            <strong className="me-auto">Hecho!</strong>
           </Toast.Header>
           <Toast.Body style={{ backgroundColor: "green" }}>
             Post creado!
@@ -277,7 +284,6 @@ function CreatePost({ loginSession, onLogin, handleLogout }) {
               alt=""
             />
             <strong className="me-auto">Error!</strong>
-            <small>11 mins ago</small>
           </Toast.Header>
           <Toast.Body style={{ backgroundColor: "red" }}>
             Error al crear post!

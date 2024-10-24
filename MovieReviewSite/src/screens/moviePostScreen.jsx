@@ -2,7 +2,15 @@ import { React, useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
 import TopBar from "../component/topBar";
 import BottomBar from "../component/bottomBar";
-import { Row, Col, Container, FloatingLabel, Form } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Container,
+  FloatingLabel,
+  Form,
+  Toast,
+  ToastContainer,
+} from "react-bootstrap";
 import "../ScreensStyle/moviePostScreen.css";
 import axios from "axios";
 import mongoose from "mongoose";
@@ -27,6 +35,9 @@ function MoviePostScreen({ handleLogout }) {
   const [post, setPost] = useState({});
   const [image, setImage] = useState({});
   const [comments, setComments] = useState([]);
+
+  const [show, setShow] = useState(false); //para toast
+  const [showError, setShowError] = useState(false); //para toast
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -117,21 +128,27 @@ function MoviePostScreen({ handleLogout }) {
   };
 
   const deletePostAPI = async () => {
-    //TODO, hacer ue el _id capture el id de la cosa a cambiar
-    const response = await axios.post(
-      "http://localhost:8080/api/posts/delete",
-      {
-        _id: new mongoose.Types.ObjectId(postKey),
-      }
-    );
-    console.log(response.data);
-    if (response.data) {
-      console.log("post eliminado!");
+    try {
+      //TODO, hacer ue el _id capture el id de la cosa a cambiar
+      const response = await axios.post(
+        "http://localhost:8080/api/posts/delete",
+        {
+          _id: new mongoose.Types.ObjectId(postKey),
+        }
+      );
       console.log(response.data);
-      navigate(`/`);
-      // console.log(response.data[0].image);
-      // setImage(response.data[1].image);
-    } else {
+      if (response.data) {
+        console.log("post eliminado!");
+        console.log(response.data);
+        navigate(`/`);
+        setShow(true);
+        // console.log(response.data[0].image);
+        // setImage(response.data[1].image);
+      } else {
+      }
+    } catch (e) {
+      setShowError(true);
+      console.log(e);
     }
   };
 
@@ -295,11 +312,36 @@ function MoviePostScreen({ handleLogout }) {
               className="rounded me-2"
               alt=""
             />
-            <strong className="me-auto">Error</strong>
-            <small>11 mins ago</small>
+            <strong className="me-auto">Error!</strong>
           </Toast.Header>
           <Toast.Body style={{ backgroundColor: "red" }}>
             Error al crear comentario
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
+
+      <ToastContainer
+        className="p-3"
+        position={"bottom-end"}
+        style={{ zIndex: 1 }}
+      >
+        <Toast
+          onClose={() => setShow(false)}
+          bg="success"
+          show={show}
+          delay={3000}
+          autohide
+        >
+          <Toast.Header style={{ backgroundColor: "green" }}>
+            <img
+              src="holder.js/10x10?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">Hecho!</strong>
+          </Toast.Header>
+          <Toast.Body style={{ backgroundColor: "green" }}>
+            Comentario creado!
           </Toast.Body>
         </Toast>
       </ToastContainer>

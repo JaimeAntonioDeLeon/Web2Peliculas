@@ -10,6 +10,7 @@ import {
   Form,
   Alert,
   Toast,
+  ToastContainer,
 } from "react-bootstrap";
 import "../ScreensStyle/createPost.css";
 
@@ -37,6 +38,9 @@ function UpdatePost({ handleLogout }) {
   const titleRef = useRef();
   const bodyRef = useRef();
   const imageRef = useRef();
+
+  const [show, setShow] = useState(false); //para toast
+  const [showError, setShowError] = useState(false); //para toast
 
   const onImageChange = async (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -67,25 +71,31 @@ function UpdatePost({ handleLogout }) {
   };
 
   const updatePostAPI = async () => {
-    const response = await axios.post(
-      "http://localhost:8080/api/posts/update",
-      {
-        id: new mongoose.Types.ObjectId(postKey),
-        title: titleRef.current.value,
-        body: bodyRef.current.value,
-        user_id: login,
-        movie_id: post.movie_id,
-        created_at: Date.now(),
-      }
-    );
-    console.log(response.data);
-    if (response.data) {
-      console.log("post actualizado!");
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/posts/update",
+        {
+          id: new mongoose.Types.ObjectId(postKey),
+          title: titleRef.current.value,
+          body: bodyRef.current.value,
+          user_id: login,
+          movie_id: post.movie_id,
+          created_at: Date.now(),
+        }
+      );
       console.log(response.data);
-      setUploadedPost(response.data);
-      // console.log(response.data[0].image);
-      // setImage(response.data[1].image);
-    } else {
+      if (response.data) {
+        console.log("post actualizado!");
+        console.log(response.data);
+        setUploadedPost(response.data);
+        setShow(true);
+        // console.log(response.data[0].image);
+        // setImage(response.data[1].image);
+      } else {
+      }
+    } catch (e) {
+      setShowError(true);
+      console.log(e);
     }
   };
 
@@ -314,11 +324,36 @@ function UpdatePost({ handleLogout }) {
               className="rounded me-2"
               alt=""
             />
-            <strong className="me-auto">Bootstrap</strong>
-            <small>11 mins ago</small>
+            <strong className="me-auto">Error!</strong>
           </Toast.Header>
           <Toast.Body style={{ backgroundColor: "red" }}>
             Actualizacion fallida!
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
+
+      <ToastContainer
+        className="p-3"
+        position={"bottom-end"}
+        style={{ zIndex: 1 }}
+      >
+        <Toast
+          onClose={() => setShow(false)}
+          bg="success"
+          show={show}
+          delay={3000}
+          autohide
+        >
+          <Toast.Header style={{ backgroundColor: "green" }}>
+            <img
+              src="holder.js/10x10?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">Hecho!</strong>
+          </Toast.Header>
+          <Toast.Body style={{ backgroundColor: "green" }}>
+            Actualizado!
           </Toast.Body>
         </Toast>
       </ToastContainer>

@@ -2,7 +2,7 @@ import { React, useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
 import TopBar from "../component/topBar";
 import BottomBar from "../component/bottomBar";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col, Container, Toast, ToastContainer } from "react-bootstrap";
 import "../ScreensStyle/movieListScreen.css";
 import MovieIcon from "../component/movieIcon";
 import mongoose from "mongoose";
@@ -22,6 +22,9 @@ function MovieListScreen({ handleLogout }) {
   const [list, setList] = useState({});
   const [deleteMode, setDeleteMode] = useState(false);
 
+  const [show, setShow] = useState(false); //para toast
+  const [showError, setShowError] = useState(false); //para toast
+
   const loadListAPI = async () => {
     const response = await axios.post("http://localhost:8080/api/list/get", {
       id: new mongoose.Types.ObjectId(listKey),
@@ -39,23 +42,29 @@ function MovieListScreen({ handleLogout }) {
   };
 
   const RemoveMovieFromListAPI = async (movieId) => {
-    const response = await axios.post(
-      "http://localhost:8080/api/list/removeMovie",
-      {
-        id: new mongoose.Types.ObjectId(listKey),
-        movie: new mongoose.Types.ObjectId(movieId),
-      }
-    );
-    console.log(response.data);
-    if (response.data) {
-      console.log("Pelicula removida!!");
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/list/removeMovie",
+        {
+          id: new mongoose.Types.ObjectId(listKey),
+          movie: new mongoose.Types.ObjectId(movieId),
+        }
+      );
       console.log(response.data);
-      loadListAPI();
-      // setList(response.data);
-      // setLoading(false);
-      // console.log(response.data[0].image);
-      // setImage(response.data[1].image);
-    } else {
+      if (response.data) {
+        console.log("Pelicula removida!!");
+        console.log(response.data);
+        loadListAPI();
+        setShow(true);
+        // setList(response.data);
+        // setLoading(false);
+        // console.log(response.data[0].image);
+        // setImage(response.data[1].image);
+      } else {
+      }
+    } catch (e) {
+      setShowError(true);
+      console.log(e);
     }
   };
   const handleOptionChange = (changeEvent) => {
@@ -170,10 +179,35 @@ function MovieListScreen({ handleLogout }) {
               alt=""
             />
             <strong className="me-auto">Error!</strong>
-            <small>11 mins ago</small>
           </Toast.Header>
           <Toast.Body style={{ backgroundColor: "red" }}>
             Error: la lista no se pudo eliminar!
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
+
+      <ToastContainer
+        className="p-3"
+        position={"bottom-end"}
+        style={{ zIndex: 1 }}
+      >
+        <Toast
+          onClose={() => setShow(false)}
+          bg="success"
+          show={show}
+          delay={3000}
+          autohide
+        >
+          <Toast.Header style={{ backgroundColor: "green" }}>
+            <img
+              src="holder.js/10x10?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">Hecho!</strong>
+          </Toast.Header>
+          <Toast.Body style={{ backgroundColor: "green" }}>
+            Pelicula removida!
           </Toast.Body>
         </Toast>
       </ToastContainer>
