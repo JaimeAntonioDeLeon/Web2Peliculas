@@ -76,7 +76,7 @@ function MovieListScreen({ handleLogout }) {
       const response = await axios.post(
         "http://localhost:8080/api/list/delete",
         {
-          id: new mongoose.Types.ObjectId(listKey),
+          _id: new mongoose.Types.ObjectId(listKey),
         }
       );
       console.log(response.data);
