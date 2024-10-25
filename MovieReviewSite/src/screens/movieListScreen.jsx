@@ -15,6 +15,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 function MovieListScreen({ handleLogout }) {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   // console.log(searchParams.get("movie"));
   const listKey = searchParams.get("list");
@@ -24,6 +25,8 @@ function MovieListScreen({ handleLogout }) {
 
   const [show, setShow] = useState(false); //para toast
   const [showError, setShowError] = useState(false); //para toast
+
+  const [login, setLogin] = useState({});
 
   const loadListAPI = async () => {
     const response = await axios.post("http://localhost:8080/api/list/get", {
@@ -67,12 +70,39 @@ function MovieListScreen({ handleLogout }) {
       console.log(e);
     }
   };
+
+  const RemoveListAPI = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/list/delete",
+        {
+          id: new mongoose.Types.ObjectId(listKey),
+        }
+      );
+      console.log(response.data);
+      if (response.data) {
+        console.log("Lista eliminada!");
+        console.log(response.data);
+        navigate("/profile");
+      } else {
+      }
+    } catch (e) {
+      setShowError(true);
+      console.log(e);
+    }
+  };
+
   const handleOptionChange = (changeEvent) => {
     if (changeEvent.target.value == "true") setDeleteMode(true);
     else setDeleteMode(false);
   };
 
   useEffect(() => {
+    if (localStorage.getItem("login")) {
+      const items = JSON.parse(localStorage.getItem("login"));
+      setLogin(items);
+      //console.log(login); //No aparece nada porque useState toma rato en reaccionar, eso se aplica a lo que importo tambien!
+    }
     loadListAPI();
   }, []);
 
@@ -85,13 +115,11 @@ function MovieListScreen({ handleLogout }) {
             <h2 className="listTitle">{list.title ?? "LIST TITLE"}</h2>
             <h4 className="listUser">
               {list.user_id &&
-                (list.user_id
-                  ? "by " + list.user_id.username
-                  : "USERNAME")}{" "}
+                (list.user_id ? "by " + list.user_id.username : "USERNAME")}
               {!list.user_id && "by " + "USERNAME"}
             </h4>
           </Col>
-          {
+          {list.user_id._id == login._id && (
             <Col xs={4}>
               <span>{"Mode: "}</span>
               <input
@@ -115,7 +143,7 @@ function MovieListScreen({ handleLogout }) {
               />
               <label for="radioDelete">Delete</label>
             </Col>
-          }
+          )}
           <Row xs={12} className="d-flex flex-row">
             {/* <Col xs={3} className="mb-3">
               <MovieIcon movie={{}} />
@@ -148,6 +176,17 @@ function MovieListScreen({ handleLogout }) {
               })}
           </Row>
         </Row>
+        {list.user_id._id == login._id && (
+          <Row className="d-flex justify-content-center">
+            <button
+              onClick={() => {
+                RemoveListAPI();
+              }}
+            >
+              Borrar lista
+            </button>
+          </Row>
+        )}
       </Container>
       <BottomBar />
       <ToastContainer
