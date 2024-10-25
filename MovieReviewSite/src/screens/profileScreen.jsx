@@ -151,7 +151,6 @@ function ProfileScreen({ handleLogout }) {
             <h2 className="mb-3 text-center">
               {"Username: " + login.username ?? "NOMBRE"}
             </h2>
-            <h3 className="mb-3">{"Registration date: " + "FECHA"}</h3>
             <h3 className="mb-3">
               {"Email adress: " + login.email ?? "EMAIL"}
             </h3>
