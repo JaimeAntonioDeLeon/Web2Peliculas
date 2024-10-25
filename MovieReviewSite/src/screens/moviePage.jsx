@@ -317,13 +317,13 @@ function MoviePage({ handleLogout }) {
                 Add to list
               </button>
             </Col>
-            <Col xs={{ span: 2, offset: 1 }} className="mb-3">
+            {/* <Col xs={{ span: 2, offset: 1 }} className="mb-3">
               <ListIcon list={{}} />
-              {/* <div>
+              <div>
                 <img className='mb-2' style={{width:100, height: 150}} src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.hartz.com%2Fwp-content%2Fuploads%2F2022%2F04%2Fsmall-dog-owners-1.jpg&f=1&nofb=1&ipt=48d24e69f5f25c8f2c431ca7495446040c19430e0de3a573c869ef543ffe19ec&ipo=images" alt="No"></img>
                 <div><h4>Title</h4></div>
-                </div> */}
-            </Col>
+                </div>
+            </Col> */}
             {lists.map((list) => {
               console.log(list);
               return (
@@ -355,11 +355,11 @@ function MoviePage({ handleLogout }) {
               </button>
             </Col>
           </Row>
-          <Row>
+          {/* <Row>
             <Col xs={{ span: 10, offset: 1 }} className="mb-3">
               <MoviePost post={{}} />
             </Col>
-          </Row>
+          </Row> */}
           {posts.map((post) => {
             console.log(post);
             return (
@@ -412,10 +412,10 @@ function MoviePage({ handleLogout }) {
                   className="mb-4 listSelect"
                   ref={listSelectedRef}
                 >
-                  <option>Open this select menu</option>
+                  {/* <option>Open this select menu</option>
                   <option value="1">One</option>
                   <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  <option value="3">Three</option> */}
                   {userLists.map((list) => {
                     console.log("lista de usuario: " + list.title);
                     return <option value={list._id}>{list.title}</option>;

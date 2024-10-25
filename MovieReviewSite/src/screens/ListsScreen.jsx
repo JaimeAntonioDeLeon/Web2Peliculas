@@ -53,12 +53,12 @@ function ListScreen({handleLogout}) {
             <h2>Recent Lists</h2>
           </Col>
           <Row xs={12} className="d-flex flex-row">
-            <Col xs={{ span: 2, offset: 1 }} className="mb-3">
+            {/* <Col xs={{ span: 2, offset: 1 }} className="mb-3">
               <ListIcon list={{}}/>
             </Col>
             <Col xs={{ span: 2, offset: 1 }} className="mb-3">
               <ListIcon list={{}}/>
-            </Col>
+            </Col> */}
             {lists.map((list) => {
             console.log(list);
               return (
