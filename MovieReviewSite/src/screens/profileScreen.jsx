@@ -3,12 +3,11 @@ import ReactDOM from "react-dom";
 import TopBar from "../component/topBar";
 import BottomBar from "../component/bottomBar";
 import ListIcon from "../component/listIcon";
-import { Row, Col, Container, Toast, ToastContainer, } from "react-bootstrap";
+import { Row, Col, Container, Toast, ToastContainer } from "react-bootstrap";
 import "../ScreensStyle/profileScreen.css";
 import axios from "axios";
 import mongoose from "mongoose";
-function ProfileScreen({handleLogout}) {
-
+function ProfileScreen({ handleLogout }) {
   const [login, setLogin] = useState({});
   const [image, setImage] = useState({});
   const [lists, setLists] = useState([]);
@@ -18,7 +17,6 @@ function ProfileScreen({handleLogout}) {
 
   const imageRef = useRef();
 
-
   const listsMovieAPI = async () => {
     const response = await axios.post("http://localhost:8080/api/list/user", {
       id: new mongoose.Types.ObjectId(login._id),
@@ -27,7 +25,7 @@ function ProfileScreen({handleLogout}) {
     if (response.data) {
       console.log("listas encontradas!");
       console.log(response.data);
-      setLists(response.data)
+      setLists(response.data);
       // setLoading(false);
       // console.log(response.data[0].image);
       // setImage(response.data[1].image);
@@ -53,10 +51,13 @@ function ProfileScreen({handleLogout}) {
 
   const uploadImageAPI = async () => {
     try {
-      const response = await axios.post("http://localhost:8080/api/users/updateImage", {
-        id: new mongoose.Types.ObjectId(login._id),
-        image: image,
-      });
+      const response = await axios.post(
+        "http://localhost:8080/api/users/updateImage",
+        {
+          id: new mongoose.Types.ObjectId(login._id),
+          image: image,
+        }
+      );
       // setWrongRegister(false);
 
       //setArray(response.data.fruits);
@@ -87,7 +88,7 @@ function ProfileScreen({handleLogout}) {
     if (response.data) {
       console.log("actualizado!");
       localStorage.setItem("login", JSON.stringify(response.data));
-      setLogin(response.data)
+      setLogin(response.data);
     } else {
       setWrongLogin(true);
     }
@@ -103,6 +104,9 @@ function ProfileScreen({handleLogout}) {
       console.log(login); //No aparece nada porque useState toma rato en reaccionar, eso se aplica a lo que importo tambien!
       //listsMovieAPI();
     }
+    if (login) {
+      listsMovieAPI();
+    }
   }, []);
 
   useEffect(() => {
@@ -116,22 +120,41 @@ function ProfileScreen({handleLogout}) {
         <img
           className="ms-auto me-auto profile-picture"
           style={{ width: 200, height: 200 }}
-          src={(login && login.image && image)? image:"https://static.vecteezy.com/system/resources/previews/000/574/215/non_2x/vector-sign-of-user-icon.jpg"}
+          src={
+            login && login.image && image
+              ? image
+              : "https://static.vecteezy.com/system/resources/previews/000/574/215/non_2x/vector-sign-of-user-icon.jpg"
+          }
           alt="No"
         ></img>
       </Row>
       <Row>
-        <Col xs={{offset:5, span:2}}><div className="d-flex justify-content-center"><input type="file" onChange={onImageChange}
-                    ref={imageRef}></input></div></Col>
-        <Col><button onClick={()=>{uploadImageAPI()}}>Save</button></Col>
+        <Col xs={{ offset: 5, span: 2 }}>
+          <div className="d-flex justify-content-center">
+            <input type="file" onChange={onImageChange} ref={imageRef}></input>
+          </div>
+        </Col>
+        <Col>
+          <button
+            onClick={() => {
+              uploadImageAPI();
+            }}
+          >
+            Save
+          </button>
+        </Col>
       </Row>
       <Container className="container">
         <Row xs={12}></Row>
         <Row>
           <Col className="mt-3" xs={{ offset: 1, span: 10 }}>
-            <h2 className="mb-3 text-center">{"Username: " + login.username??"NOMBRE"}</h2>
+            <h2 className="mb-3 text-center">
+              {"Username: " + login.username ?? "NOMBRE"}
+            </h2>
             <h3 className="mb-3">{"Registration date: " + "FECHA"}</h3>
-            <h3 className="mb-3">{"Email adress: " + login.email??"EMAIL"}</h3>
+            <h3 className="mb-3">
+              {"Email adress: " + login.email ?? "EMAIL"}
+            </h3>
           </Col>
         </Row>
         <Row>
@@ -157,12 +180,12 @@ function ProfileScreen({handleLogout}) {
           </Col> */}
           {lists.map((list) => {
             console.log(list);
-              return (
-                <Col xs={{ span: 3, offset: 1 }} className="mb-3">
-                  <ListIcon list={list} />
-                </Col>
-              );
-            })}
+            return (
+              <Col xs={{ span: 3, offset: 1 }} className="mb-3">
+                <ListIcon list={list} />
+              </Col>
+            );
+          })}
         </Row>
       </Container>
       <BottomBar />
