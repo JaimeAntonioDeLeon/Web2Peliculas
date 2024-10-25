@@ -41,6 +41,7 @@ function MoviePage({ handleLogout }) {
   const [userLists, setUserLists] = useState([]);
 
   const [show, setShow] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const [showError, setShowError] = useState(false); //para toast
 
   const listNameRef = useRef();
@@ -137,7 +138,7 @@ function MoviePage({ handleLogout }) {
       if (response.data) {
         console.log("Pelicula agregada a lista!");
         console.log(response.data);
-        setShow(true);
+        setShowToast(true);
         handleClose();
         // setList(response.data);
         // setLoading(false);
@@ -470,9 +471,9 @@ function MoviePage({ handleLogout }) {
         style={{ zIndex: 1 }}
       >
         <Toast
-          onClose={() => setShow(false)}
+          onClose={() => setShowToast(false)}
           bg="success"
-          show={show}
+          show={showToast}
           delay={3000}
           autohide
         >

@@ -162,7 +162,7 @@ function CreatePost({ loginSession, onLogin, handleLogout }) {
   };
 
   useEffect(() => {
-    loadImagesAPI();
+    //loadImagesAPI();
     loadMoviesAPI();
     // console.log(loginSession);
     if (localStorage.getItem("login")) {
