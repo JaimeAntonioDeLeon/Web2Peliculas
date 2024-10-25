@@ -91,7 +91,7 @@ function App() {
             <Route
               path="/"
               element={
-                login ? (
+                localStorage.getItem("login") ? (
                   <MainScreen
                     loginSession={login}
                     onLogin={setLogin}
@@ -115,7 +115,7 @@ function App() {
             <Route
               path="/movieList"
               element={
-                login ? (
+                localStorage.getItem("login") ? (
                   <MovieListScreen handleLogout={handleLogout} />
                 ) : (
                   <Navigate to="/login" />
@@ -125,7 +125,7 @@ function App() {
             <Route
               path="/moviePage"
               element={
-                login ? (
+                localStorage.getItem("login") ? (
                   <MoviePage handleLogout={handleLogout} />
                 ) : (
                   <Navigate to="/login" />
@@ -135,7 +135,7 @@ function App() {
             <Route
               path="/moviePost"
               element={
-                login ? (
+                localStorage.getItem("login") ? (
                   <MoviePostScreen handleLogout={handleLogout} />
                 ) : (
                   <Navigate to="/login" />
@@ -145,7 +145,7 @@ function App() {
             <Route
               path="/profile"
               element={
-                login ? (
+                localStorage.getItem("login") ? (
                   <ProfileScreen handleLogout={handleLogout} />
                 ) : (
                   <Navigate to="/login" />
@@ -155,7 +155,7 @@ function App() {
             <Route
               path="/recentLists"
               element={
-                login ? (
+                localStorage.getItem("login") ? (
                   <ListScreen handleLogout={handleLogout} />
                 ) : (
                   <Navigate to="/login" />
@@ -165,7 +165,7 @@ function App() {
             <Route
               path="/movieReleases"
               element={
-                login ? (
+                localStorage.getItem("login") ? (
                   <MovieReleasesScreen handleLogout={handleLogout} />
                 ) : (
                   <Navigate to="/login" />
@@ -175,7 +175,7 @@ function App() {
             <Route
               path="/recentPosts"
               element={
-                login ? (
+                localStorage.getItem("login") ? (
                   <RecentPostsScreen handleLogout={handleLogout} />
                 ) : (
                   <Navigate to="/login" />
@@ -185,7 +185,7 @@ function App() {
             <Route
               path="/createPost"
               element={
-                login ? (
+                localStorage.getItem("login") ? (
                   <CreatePost
                     loginSession={login}
                     onLogin={setLogin}
@@ -199,7 +199,7 @@ function App() {
             <Route
               path="/updatePost"
               element={
-                login ? (
+                localStorage.getItem("login") ? (
                   <UpdatePost handleLogout={handleLogout} />
                 ) : (
                   <Navigate to="/login" />

@@ -52,6 +52,7 @@ function Login({ loginSession, onLogin }) {
     if (response.data) {
       console.log("encontrado!");
       setShow(true);
+      localStorage.setItem("login", JSON.stringify(response.data));
       onLogin(response.data);
       setLogin(response.data);
     } else {
@@ -67,7 +68,7 @@ function Login({ loginSession, onLogin }) {
 
   useEffect(() => {
     if (login) {
-      localStorage.setItem("login", JSON.stringify(login));
+      //localStorage.setItem("login", JSON.stringify(login));
       console.log("Logged in!");
       setWrongLogin(false);
       navigate("/");

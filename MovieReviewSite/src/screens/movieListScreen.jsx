@@ -119,7 +119,7 @@ function MovieListScreen({ handleLogout }) {
               {!list.user_id && "by " + "USERNAME"}
             </h4>
           </Col>
-          {list.user_id._id == login._id && (
+          {list.user_id && list.user_id._id == login._id && (
             <Col xs={4}>
               <span>{"Mode: "}</span>
               <input
@@ -176,8 +176,8 @@ function MovieListScreen({ handleLogout }) {
               })}
           </Row>
         </Row>
-        {list.user_id._id == login._id && (
-          <Row className="d-flex justify-content-center">
+        {list.user_id && list.user_id._id == login._id && (
+          <Row className="d-flex justify-content-center ">
             <button
               onClick={() => {
                 RemoveListAPI();
