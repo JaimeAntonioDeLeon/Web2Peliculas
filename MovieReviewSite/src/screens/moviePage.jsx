@@ -43,6 +43,7 @@ function MoviePage({ handleLogout }) {
   const [show, setShow] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [showError, setShowError] = useState(false); //para toast
+  const [showToastListaCreada, setShowToastListaCreada] = useState(false); 
 
   const listNameRef = useRef();
   const listSelectedRef = useRef();
@@ -114,6 +115,9 @@ function MoviePage({ handleLogout }) {
       //setArray(response.data);
       if (response.data) {
         console.log(response.data._id);
+        setShow(false);
+        setShowToastListaCreada(true);
+        listsMovieAPI();
         //navigate('/');
       } else {
         console.log("Ha fallado");
@@ -138,6 +142,7 @@ function MoviePage({ handleLogout }) {
       if (response.data) {
         console.log("Pelicula agregada a lista!");
         console.log(response.data);
+        listsMovieAPI();
         setShowToast(true);
         handleClose();
         // setList(response.data);
@@ -487,6 +492,32 @@ function MoviePage({ handleLogout }) {
           </Toast.Header>
           <Toast.Body style={{ backgroundColor: "green" }}>
             Agregado a lista!
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
+
+      <ToastContainer
+        className="p-3"
+        position={"bottom-end"}
+        style={{ zIndex: 1 }}
+      >
+        <Toast
+          onClose={() => setShowToastListaCreada(false)}
+          bg="success"
+          show={showToastListaCreada}
+          delay={3000}
+          autohide
+        >
+          <Toast.Header style={{ backgroundColor: "green" }}>
+            <img
+              src="holder.js/10x10?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">Hecho!</strong>
+          </Toast.Header>
+          <Toast.Body style={{ backgroundColor: "green" }}>
+            Lista creada!
           </Toast.Body>
         </Toast>
       </ToastContainer>
