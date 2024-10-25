@@ -138,9 +138,9 @@ function MainScreen({ loginSession, setLogin, handleLogout }) {
               );
             })}
           </Row>
+          {/* <MoviePost post={{}} />
           <MoviePost post={{}} />
-          <MoviePost post={{}} />
-          <MoviePost post={{}} />
+          <MoviePost post={{}} /> */}
           <div>
             You're gay
             <br />

@@ -70,7 +70,7 @@ function RecentPostsScreen({handleLogout}) {
           </Col>
         </Row>
 
-        <Row className="d-flex flex-row">
+        {/* <Row className="d-flex flex-row">
           <Col xs={{ span: 10, offset: 1 }}>
             <MoviePost title="I'm blind and even I could see that coming!" />
           </Col>
@@ -79,7 +79,7 @@ function RecentPostsScreen({handleLogout}) {
           <Col xs={{ span: 10, offset: 1 }}>
             <MoviePost title="Powerful movie!" />
           </Col>
-        </Row>
+        </Row> */}
         {posts.map((movie) => {
           return (
             <Row>

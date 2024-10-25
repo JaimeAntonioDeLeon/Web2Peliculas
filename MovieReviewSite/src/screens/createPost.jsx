@@ -124,7 +124,7 @@ function CreatePost({ loginSession, onLogin, handleLogout }) {
 
         //navigate('/');
       } else {
-        console.log("no sexo");
+        console.log("Nope");
       }
       console.log(response.data);
     } catch (e) {

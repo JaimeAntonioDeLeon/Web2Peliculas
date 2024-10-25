@@ -75,12 +75,12 @@ function MovieReleasesScreen({handleLogout}) {
             <h2 className="text-start">Movie Releases</h2>
           </Col>
           <Row xs={12} className="d-flex flex-row">
-            <Col xs={3} className="mb-3">
+            {/* <Col xs={3} className="mb-3">
               <MovieIcon movie={{ title: "Test" }} />
             </Col>
             <Col xs={3} className="mb-3">
               <MovieIcon movie={{ title: "Test" }} />
-            </Col>
+            </Col> */}
             {movies.map((movie) => {
               return (
                 <Col xs={3} className="mb-3">

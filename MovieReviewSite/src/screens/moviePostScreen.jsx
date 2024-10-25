@@ -286,8 +286,8 @@ function MoviePostScreen({ handleLogout }) {
                         </Col>
                         <Col xs={9}>This is my coment</Col>
                     </Row> */}
-        <Comment comment={{ body: "This is my comment" }} />
-        <Comment comment={{ body: "This is my comment" }} />
+        {/* <Comment comment={{ body: "This is my comment" }} />
+        <Comment comment={{ body: "This is my comment" }} /> */}
         {comments.map((comment) => {
           console.log(post);
           return <Comment comment={comment} />;
