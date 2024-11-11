@@ -35,6 +35,7 @@ function MoviePostScreen({ handleLogout }) {
   const [post, setPost] = useState({});
   const [image, setImage] = useState({});
   const [comments, setComments] = useState([]);
+  const [movie, setMovie] = useState({});
 
   const [show, setShow] = useState(false); //para toast
   const [showError, setShowError] = useState(false); //para toast
@@ -187,6 +188,22 @@ function MoviePostScreen({ handleLogout }) {
     }
   };
 
+  const loadMoviesAPI = async () => {
+    const response = await axios.post("http://localhost:8080/api/movie/post", {
+      _id: new mongoose.Types.ObjectId(post.movie_id),
+    });
+    console.log(response.data);
+    if (response.data) {
+      console.log("pelicula encontrada!");
+      // console.log(response.data);
+      setMovie(response.data);
+      // setLoading(false);
+      // console.log(response.data[0].image);
+      // setImage(response.data[1].image);
+    } else {
+    }
+  };
+
   useEffect(() => {
     loadPostAPI();
     loadCommentAPI();
@@ -244,7 +261,15 @@ function MoviePostScreen({ handleLogout }) {
                   )}
                 </Row>
                 <Row className="mb-4">
-                  <h4>Movie Subject</h4>
+                  <h4
+                    onClick={() => {
+                      if (movie && movie._id)
+                        navigate(`/moviePage?movie=${movie._id}`);
+                    }}
+                  >
+                    {movie.title ?? "Movie Title"}
+                  </h4>{" "}
+                  {/*TODO: agregar link y nombre de pelicula aqui */}
                 </Row>
                 <Row>
                   <p> {post.body ?? "Post description"} </p>
