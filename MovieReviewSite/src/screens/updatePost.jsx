@@ -250,14 +250,19 @@ function UpdatePost({ handleLogout }) {
       <Container className="container pb-4">
         <Row xs={12}>
           <Col xs={4}>
-            <h2>{"Topic: " + movies.title ?? "MOVIE NAME"}</h2>
+            <h2>{"Topic: " + movies.title ?? "MOVIE NAME"}</h2>{" "}
+            {/*TODO: Check if movies actually loads something, post.movie_id may be empty or I get a wrong name */}
           </Col>
           <Row xs={12} className="d-flex flex-row">
             <Col xs={{ span: 2 }} className="mb-3">
               <div>
                 <img
                   className="mb-2 profilePicture"
-                  src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.hartz.com%2Fwp-content%2Fuploads%2F2022%2F04%2Fsmall-dog-owners-1.jpg&f=1&nofb=1&ipt=48d24e69f5f25c8f2c431ca7495446040c19430e0de3a573c869ef543ffe19ec&ipo=images"
+                  src={
+                    login && login.image
+                      ? login.image
+                      : "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.hartz.com%2Fwp-content%2Fuploads%2F2022%2F04%2Fsmall-dog-owners-1.jpg&f=1&nofb=1&ipt=48d24e69f5f25c8f2c431ca7495446040c19430e0de3a573c869ef543ffe19ec&ipo=images"
+                  }
                   alt="No"
                 ></img>
                 <div>
