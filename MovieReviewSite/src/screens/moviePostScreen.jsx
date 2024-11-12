@@ -195,7 +195,7 @@ function MoviePostScreen({ handleLogout }) {
     console.log(response.data);
     if (response.data) {
       console.log("pelicula encontrada!");
-      // console.log(response.data);
+       console.log(response.data);
       setMovie(response.data);
       // setLoading(false);
       // console.log(response.data[0].image);
@@ -215,6 +215,10 @@ function MoviePostScreen({ handleLogout }) {
       console.log(login); //No aparece nada porque useState toma rato en reaccionar, eso se aplica a lo que importo tambien!
     }
   }, []);
+
+  useEffect(() => {
+    loadMoviesAPI();
+  }, [post]);
 
   return (
     <div className="moviePostScreen">
@@ -261,7 +265,7 @@ function MoviePostScreen({ handleLogout }) {
                   )}
                 </Row>
                 <Row className="mb-4">
-                  <h4
+                  <h4 className="movieLink"
                     onClick={() => {
                       if (movie && movie._id)
                         navigate(`/moviePage?movie=${movie._id}`);
