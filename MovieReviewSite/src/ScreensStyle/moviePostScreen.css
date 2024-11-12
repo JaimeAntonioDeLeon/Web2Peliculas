@@ -29,3 +29,7 @@
 .moviePostScreen p{
   padding: 0px;
 }
+.movieLink {
+  color:blue;
+  text-decoration: underline;
+}

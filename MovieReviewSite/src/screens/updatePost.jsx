@@ -223,7 +223,6 @@ function UpdatePost({ handleLogout }) {
 
   useEffect(() => {
     loadImagesAPI();
-    loadMoviesAPI();
     loadPostAPI();
     // console.log(loginSession);
     if (localStorage.getItem("login")) {
@@ -237,6 +236,7 @@ function UpdatePost({ handleLogout }) {
   useEffect(() => {
     titleRef.current.value = post.title;
     bodyRef.current.value = post.body;
+    loadMoviesAPI();
   }, [post]);
 
   useEffect(() => {
