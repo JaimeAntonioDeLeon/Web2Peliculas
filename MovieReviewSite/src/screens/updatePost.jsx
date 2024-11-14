@@ -193,13 +193,42 @@ function UpdatePost({ handleLogout }) {
     }
   };
 
-  const loadImagesAPI = async () => {
-    const response = await axios.get("http://localhost:8080/api/image", {});
+  // const loadImagesAPI = async () => {
+  //   const response = await axios.get("http://localhost:8080/api/image", {});
+  //   console.log(response.data);
+  //   if (response.data) {
+  //     console.log("encontrado!");
+  //     console.log(response.data[0].image);
+  //     // setImage(response.data[2].image);
+  //     setImage(response.data[2].image);
+  //   } else {
+  //     setWrongLogin(true);
+  //   }
+  // };
+  const loadImageAPI = async () => {
+    const response = await axios.post("http://localhost:8080/api/image/post", {
+      id: new mongoose.Types.ObjectId(postKey),
+    });
     console.log(response.data);
     if (response.data) {
-      console.log("encontrado!");
-      console.log(response.data[0].image);
-      setImage(response.data[2].image);
+      console.log("imagen encontrado!");
+      console.log(response.data);
+      setImage(response.data.image);
+      // setLoading(false);
+      // console.log(response.data[0].image);
+      // setImage(response.data[1].image);
+    } else {
+    }
+  };
+
+  const deleteImagesAPI = async () => {
+    const response = await axios.post("http://localhost:8080/api/image/delete", {
+      id: new mongoose.Types.ObjectId(post._id),
+    });
+    console.log(response.data);
+    if (response.data) {
+      console.log("Borrada la imagen.");
+      uploadImageAPI(post._id);
     } else {
       setWrongLogin(true);
     }
@@ -222,7 +251,7 @@ function UpdatePost({ handleLogout }) {
   };
 
   useEffect(() => {
-    loadImagesAPI();
+    loadImageAPI();
     loadPostAPI();
     // console.log(loginSession);
     if (localStorage.getItem("login")) {
@@ -241,7 +270,8 @@ function UpdatePost({ handleLogout }) {
 
   useEffect(() => {
     //creado para subir una imagen que se ligara al post
-    uploadImageAPI(post._id);
+    //uploadImageAPI(post._id);
+    deleteImagesAPI();
   }, [uploadedPost]);
 
   return (

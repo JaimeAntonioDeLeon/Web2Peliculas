@@ -29,8 +29,19 @@ const postImage = async(req, res) => {
     } 
 };
 
+const deleteImages = async(req, res) => {
+    try{
+        const {id} = req.body;
+        const images = await Image.deleteMany({post_id:id});
+        res.status(200).json(images);
+    }catch(error){
+        res.status(500).json({message: error.message});
+    } 
+};
+
 module.exports ={
     getImages,
     getPostImages,
-    postImage
+    postImage,
+    deleteImages
 }
