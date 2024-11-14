@@ -1,14 +1,14 @@
 const express =  require("express");
 const router = express.Router();
 const cors = require("cors");
-const {getPosts, getPostSelected, postPost} = require('../controllers/postController');
-const {getImages, getPostImages, postImage} = require('../controllers/imageController.js');
+const {getImages, getPostImages, postImage, deleteImages} = require('../controllers/imageController.js');
 router.use(cors({
     origin: "*"
 }));
 router.get('/', getImages);
 router.post('/post', getPostImages);
 router.post('/', postImage);
+router.post('/delete', deleteImages);
 
 
 module.exports = router;
